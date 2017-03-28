@@ -24,9 +24,14 @@ catch(PDOException $e){
 
 */
 
-
+define('MAXIMUM SIZE', "2097152")
 
 if(array_key_exists('save', $_POST)){
+  #BE SURE A FILE IS SELECTED
+  if(empty($_FILES['pic']['name'])){
+
+    
+  }
 
 
   print_r($_FILES);
