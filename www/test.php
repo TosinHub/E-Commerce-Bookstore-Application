@@ -24,17 +24,52 @@ catch(PDOException $e){
 
 */
 
-define('MAXIMUM SIZE', "2097152")
+define('MAX_FILE_SIZE', "2097152");
+#allowed extentions
+
+$ext = ["image/jpg","image/jpeg","image/png"];
 
 if(array_key_exists('save', $_POST)){
+
+        $error = [];
   #BE SURE A FILE IS SELECTED
-  if(empty($_FILES['pic']['name'])){
-
-    
-  }
+        if(empty($_FILES['pic']['name'])){
+            $error[] = "Please choose a file";
 
 
-  print_r($_FILES);
+       }
+  #Check file size
+
+        if($_FILES['pic']['size'] > MAX_FILE_SIZE)
+                  {
+                        $error[] = "File exceeds maximum. Maximum:" . MAX_FILE_SIZE;
+                  }
+
+  #check file type/extention
+                  if(!in_array($_FILES['pic']['type'], $ext)){
+
+                        $error = "Invalid file type";
+
+                  }
+
+
+        if(empty($error))
+                {
+                  echo "Done";
+                }else
+                
+
+                        {
+                foreach ($error as $err) {
+                              # code...
+                              echo $err. "</br>";
+                        }
+
+
+
+
+               }
+
 }
 ?>
 <form id="register" method="POST" enctype="multipart/form-data">
