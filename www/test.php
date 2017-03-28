@@ -48,8 +48,22 @@ if(array_key_exists('save', $_POST)){
   #check file type/extention
                   if(!in_array($_FILES['pic']['type'], $ext)){
 
-                        $error = "Invalid file type";
+                        $error[] = "Invalid file type";
 
+                  }
+
+
+    #generate random number to append
+                  $rnd = rand(000000000000, 999999999999);
+    # strip filename for spaces
+                  $strip_name = str_replace("", "_",$_FILES['pic']['name'] );
+                  $filename = $rnd.$strip_name;
+                  $destination = 'uploads/' .$filename;
+
+                  if(!move_uploaded_file($_FILES['pic']['tmp_name'], $destination))
+                  {
+
+                    $error[] = "file upload failed";
                   }
 
 
