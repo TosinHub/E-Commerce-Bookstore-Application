@@ -1,3 +1,5 @@
+<?php include 'includes/header.php' ?>
+
 <div class="wrapper">
 		<h1 id="register-label">Admin Register</h1>
 		<hr>
@@ -30,3 +32,5 @@
 
 		<h4 class="jumpto">Have an account? <a href="login.php">login</a></h4>
 	</div>
+
+	<?php include 'includes/footer.php' ?>
