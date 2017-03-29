@@ -1,10 +1,73 @@
-<?php include 'includes/header.php' ?>
+
+
+
+<?php
+
+$page_title = "Register";
+
+
+ include 'includes/header.php';
+
+
+
+ if(array_key_exists('register', $_POST)){
+ 		#Cache errors
+	 	$errors = [];
+	 	#validate first name
+
+	 	if(empty($_POST['fname'])){
+
+	 			$errors['fname'] = "please enter first name";
+
+	 	}
+
+	 	if(empty($_POST['lname'])){
+
+	 			$errors['lname'] = "please enter last name";
+
+	 	}
+
+	 	if(empty($_POST['email'])){
+
+	 			$errors['email'] = "please enter email";
+
+	 	}
+
+
+	 	if(empty($_POST['password'])){
+
+	 			$errors['password'] = "please enter password";
+
+	 	}
+
+
+	 	if($_POST['password'] != $_POST['pword']){
+
+	 			$errors['pword'] = "password do not match";
+
+	 	}
+	 	if(empty($errors)){
+
+
+	 		//acess database
+	 	
+	 	}
+
+
+
+ 	} 
+
+
+
+
+ 	?>
 
 <div class="wrapper">
 		<h1 id="register-label">Admin Register</h1>
 		<hr>
 		<form id="register"  action ="register.php" method ="POST">
 			<div>
+			<?php if(isset($errors['fname'])){ echo '<span class="err">'.$errors['fname']. '</span>' ;}  ?>
 				<label>first name:</label>
 				<input type="text" name="fname" placeholder="first name">
 			</div>
