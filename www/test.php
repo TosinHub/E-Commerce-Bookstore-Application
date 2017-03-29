@@ -24,20 +24,29 @@ catch(PDOException $e){
 
 */
 
-define('MAX_FILE_SIZE', "2097152");
-#allowed extentions
+    define('MAX_FILE_SIZE', "2097152");
 
-$ext = ["image/jpg","image/jpeg","image/png"];
+    #allowed extentions
 
-if(array_key_exists('save', $_POST)){
+    $ext = ["image/jpg","image/jpeg","image/png"];
+
+    print_r($_FILES);
+
+    if(array_key_exists('save', $_POST))
+
+
+
+                  {
 
         $error = [];
   #BE SURE A FILE IS SELECTED
-        if(empty($_FILES['pic']['name'])){
+
+        if(empty($_FILES['pic']['name']))
+                  {
             $error[] = "Please choose a file";
 
 
-       }
+                  }
   #Check file size
 
         if($_FILES['pic']['size'] > MAX_FILE_SIZE)
@@ -46,21 +55,24 @@ if(array_key_exists('save', $_POST)){
                   }
 
   #check file type/extention
-                  if(!in_array($_FILES['pic']['type'], $ext)){
+      /*  if(!in_array($_FILES['pic']['type'], $ext))
+                  {
 
                         $error[] = "Invalid file type";
 
                   }
-
+*/
 
     #generate random number to append
                   $rnd = rand(000000000000, 999999999999);
+
     # strip filename for spaces
                   $strip_name = str_replace("", "_",$_FILES['pic']['name'] );
                   $filename = $rnd.$strip_name;
                   $destination = 'uploads/' .$filename;
 
-                  if(!move_uploaded_file($_FILES['pic']['tmp_name'], $destination))
+
+        if(!move_uploaded_file($_FILES['pic']['tmp_name'], $destination))
                   {
 
                     $error[] = "file upload failed";
@@ -68,16 +80,21 @@ if(array_key_exists('save', $_POST)){
 
 
         if(empty($error))
-                {
+                 {
                   echo "Done";
-                }else
-                
+                 }
 
-                        {
-                foreach ($error as $err) {
-                              # code...
-                              echo $err. "</br>";
-                        }
+             else
+                 
+                {
+                    
+                    foreach ($error as $err) 
+                     {
+
+
+                 echo $err. "</br>";
+                
+                     }
 
 
 
@@ -86,11 +103,20 @@ if(array_key_exists('save', $_POST)){
 
 }
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
 <form id="register" method="POST" enctype="multipart/form-data">
 <p>Please upload a file</p>
 <input type="file" name="pic"/>
-<input type="submit" name="save" value="submit">
+<input type="submit" name="save" value="submit" />
   
 
 
 </form>
+</body>
+</html>
+
