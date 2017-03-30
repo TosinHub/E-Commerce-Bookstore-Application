@@ -25,12 +25,39 @@
 
 
 	}
+
+
+
+	function doAdminLogin($dbconn, $input){
+
+				//hash the password
+
+	 		$hash = password_hash($input['password'], PASSWORD_BCRYPT);
+
+	 		//INSERT DATA INTO TABLE
+	 		$stmt = $dbconn->prepare("SELECT * FROM  admin WHERE email = ':e' AND hash = ':h' ");
+
+	 		//bind params
+
+	 		$data = [
+	 					
+	 					':e' => $input['email'],
+	 					':h' => $hash,
+
+	 		];
+	 		$stmt->execute($data);
+	 		
+	 	
+	 	
+
+
+	}
 		
 
 	function doesEmailExist($dbconn, $email){
 			$result = false;
 
-			$stmt = $dbconn->prepare("SELECT email FROM admin WHERE email = :e");
+			$stmt = $dbconn->prepare("SELECT email FROM admin WHERE ");
 
 			#bind parameter
 			$stmt->bindParam(":e", $email);
@@ -47,17 +74,13 @@
 		}
 
 
-	function displayError($show,$errors){
-
-
-		if(isset($errors['$show']))
-
-			{ 
-
-				echo '<span class="err">'.$errors['fname']. '</span>' ;}
+	function displayError($show){
 
 
 
+
+				echo '<span class="err">'.$show. '</span>' ;
+				return true;
 
 	}
 

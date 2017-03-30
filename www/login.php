@@ -2,8 +2,62 @@
 <?php 
 
 
-$page_title = "Register";
-include 'includes/header.php'; ?>
+$page_title = "Login";
+
+ include 'includes/db.php';
+
+ include 'includes/function.php';
+
+
+ include 'includes/header.php';
+
+
+
+
+
+ if(array_key_exists('register', $_POST)){
+ 		#Cache errors
+	 	$errors = [];
+
+
+
+
+	 }
+
+
+	 if(empty($_POST['email'])){
+
+	 			$errors['email'] = "please enter email";
+
+	 	}
+
+
+	 	 	if(empty($_POST['password'])){
+
+	 			$errors['password'] = "please enter password";
+
+
+	 		}
+	 		if(empty($errors)){
+
+
+	 		//acess database
+	 		$clean = array_map('trim', $_POST);
+
+
+	 		#register admin
+
+	 		doAdminLogin($conn, $clean);
+
+
+	 	}
+
+
+
+
+
+
+ ?>
 
 <div class="wrapper">
 	<h1 id="register-label">Admin Login</h1>
