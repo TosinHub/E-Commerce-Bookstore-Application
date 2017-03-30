@@ -51,7 +51,7 @@ catch(PDOException $e){
 
         if($_FILES['pic']['size'] > MAX_FILE_SIZE)
                   {
-                        $error[] = "File exceeds maximum. Maximum:" . MAX_FILE_SIZE;
+                        $error[] = "File exceeds maximum sixe. Maximum size:" . MAX_FILE_SIZE;
                   }
 
   #check file type/extention

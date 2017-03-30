@@ -6,6 +6,10 @@
 $page_title = "Register";
 
 
+#connect to databse
+ include 'includes/db.php';
+
+
  include 'includes/header.php';
 
 
@@ -50,6 +54,25 @@ $page_title = "Register";
 
 
 	 		//acess database
+	 		$clean = array_map('trim', $_POST);
+
+	 		//hash the password
+
+	 		$hash = password_hash($clean['password'], PASSWORD_BCRYPT);
+
+	 		//INSERT DATA INTO TABLE
+	 		$stmt = $conn->prepare("INSERT INTO admin(fname,lname,email,hash) VALUES (:fn,:ln,:e,:h)");
+
+	 		//bind params
+
+	 		$data = [
+	 					':fn' => $clean['fname'],
+	 					':ln' => $clean['lname'],
+	 					':e' => $clean['email'],
+	 					':h' => $hash,
+
+	 		];
+	 		$stmt->execute($data);
 	 	
 	 	}
 
