@@ -9,6 +9,8 @@ $page_title = "Register";
 #connect to databse
  include 'includes/db.php';
 
+ include 'includes/function.php';
+
 
  include 'includes/header.php';
 
@@ -37,6 +39,11 @@ $page_title = "Register";
 
 	 	}
 
+	 	if(doesEmailExist($conn, $_POST['email'])){
+
+	 			$errors['email'] = "email already exists";
+	 	}
+
 
 	 	if(empty($_POST['password'])){
 
@@ -50,40 +57,33 @@ $page_title = "Register";
 	 			$errors['pword'] = "password do not match";
 
 	 	}
+
 	 	if(empty($errors)){
 
 
 	 		//acess database
 	 		$clean = array_map('trim', $_POST);
 
-	 		//hash the password
 
-	 		$hash = password_hash($clean['password'], PASSWORD_BCRYPT);
+	 		#register admin
 
-	 		//INSERT DATA INTO TABLE
-	 		$stmt = $conn->prepare("INSERT INTO admin(fname,lname,email,hash) VALUES (:fn,:ln,:e,:h)");
+	 		doAdminRegister($conn, $clean);
 
-	 		//bind params
 
-	 		$data = [
-	 					':fn' => $clean['fname'],
-	 					':ln' => $clean['lname'],
-	 					':e' => $clean['email'],
-	 					':h' => $hash,
-
-	 		];
-	 		$stmt->execute($data);
-	 	
 	 	}
+
+	 		
 
 
 
  	} 
 
 
-
-
  	?>
+
+
+
+
 
 <div class="wrapper">
 		<h1 id="register-label">Admin Register</h1>
@@ -100,6 +100,7 @@ $page_title = "Register";
 			</div>
 
 			<div>
+			<?php if(isset($errors['email'])){ echo '<span class="err">'.$errors['email']. '</span>' ;}  ?>
 				<label>email:</label>
 				<input type="text" name="email" placeholder="email">
 			</div>
