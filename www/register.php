@@ -90,13 +90,7 @@ $page_title = "Register";
 		<hr>
 		<form id="register"  action ="register.php" method ="POST">
 			<div>
-			<?php if(isset($errors['fname']))
-
-
-			{  displayError($errors['fname'])
-
-
-			 ;}  ?>
+			<?php displayError($errors, 'fname');  ?>
 				<label>first name:</label>
 				<input type="text" name="fname" placeholder="first name">
 			</div>
@@ -106,7 +100,7 @@ $page_title = "Register";
 			</div>
 
 			<div>
-			<?php if(isset($errors['email'])){ echo '<span class="err">'.$errors['email']. '</span>' ;}  ?>
+			<?php displayError($errors, 'email');   ?>
 				<label>email:</label>
 				<input type="text" name="email" placeholder="email">
 			</div>

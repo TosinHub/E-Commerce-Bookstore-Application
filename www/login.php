@@ -18,11 +18,7 @@ $page_title = "Login";
  if(array_key_exists('register', $_POST)){
  		#Cache errors
 	 	$errors = [];
-
-
-
-
-	 }
+	 
 
 
 	 if(empty($_POST['email'])){
@@ -51,6 +47,16 @@ $page_title = "Login";
 
 
 	 	}
+
+
+	 		else{
+							foreach ($errors as $error) {
+								echo "<p> $error </p>";
+								# code...
+							}
+	 	}
+
+	 }
 
 
 
