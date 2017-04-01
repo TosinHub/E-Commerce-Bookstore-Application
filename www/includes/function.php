@@ -220,3 +220,94 @@
 
 }
 	
+
+	function getCategory($dbconn)
+	{
+			$stmt = $dbconn->prepare("SELECT * FROM category ");
+				 $stmt->execute();
+				 $result = "";
+
+	 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+	 			$cat_id = $row['cat_id'];
+	 			$cat_name = $row['cat_name'];
+
+	 			$result .= "<option value=$cat_id>"  .$cat_name ."</option>";
+
+	 		}
+	 		return $result;
+	}
+
+
+
+function productUpload($dbconn,$files,$error,$pic,$input){
+
+
+			 define('MAX_FILE_SIZE', "2097152");
+
+    #allowed extentions
+
+    $ext = ["image/jpg","image/jpeg","image/png"];
+
+     if(empty($files[$pic]['name']))
+                  {
+            $error[$pic] = "Please choose a file";
+
+
+                  }
+
+
+
+
+                   if($files[$pic]['size'] > MAX_FILE_SIZE)
+                  {
+                         $error[$pic] = "File exceeds maximum sixe. Maximum size:" . MAX_FILE_SIZE;
+                  }
+
+  #check file type/extention
+       if(!in_array($files[$pic]['type'], $ext))
+                  {
+
+                        $error[$pic] = "Invalid file type";
+
+                  }
+
+
+    #generate random number to append
+                  $rnd = rand(000000000000, 999999999999);
+
+    # strip filename for spaces
+                  $strip_name = str_replace("", "_",$_FILES['pic']['name'] );
+                  $filename = $rnd.$strip_name;
+                  $destination = 'uploads/' .$filename;
+
+
+        if(!move_uploaded_file($files[$pic]['tmp_name'], $destination))
+                  {
+
+                    $error[$pic] = "file upload failed";
+                  }
+
+
+                  $stmt = $dbconn->prepare("INSERT INTO book(title,author,cat_id,price,year,isbn,image_path) 
+                  	VALUES (:t,:a,:c,:p,:y,:i,:im)");
+
+	 		//bind params
+
+	 		$data = [
+	 					':t' => $input['title'],
+	 					':a' => $input['author'],
+	 					':c' => $input['cat'],
+	 					':p' => $input['price'],
+	 					':y' => $input['year'],
+	 					':i' => $input['isbn'],
+	 					':im' => $destination,
+
+	 					
+
+	 		];
+	 		$stmt->execute($data);
+
+		}
+	 		
+	 	
+	 	

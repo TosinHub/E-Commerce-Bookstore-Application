@@ -1,4 +1,6 @@
 <?php 
+
+ include 'includes/function.php';
 # test.php sandbox
 /*define('DBNAME','bookstore');
 define('DBUSER','root');

@@ -10,16 +10,6 @@
 			<h1>T<span>SSB</span> |
 
 <?php
-if(isset($_SESSION['cat_page'])){
-
-	echo "Categories";
-}
-
-
-if(isset($_SESSION['product_page'])){
-
-	echo "Products";
-}
 
 if(isset($_SESSION['active']) && $_SESSION['active']){
 

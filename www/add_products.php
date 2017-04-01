@@ -7,12 +7,9 @@ $page_title = "Add Products";
 
 session_start();
 $_SESSION['active'] = true;
-$_SESSION ['product_page'] = true;
+
 
 #connect to databse
-
-
-$page_title = "Products";
 
 
 
@@ -26,58 +23,65 @@ $page_title = "Products";
 
 
 
- if(array_key_exists('register', $_POST)){
+ if(array_key_exists('add', $_POST)){
  		#Cache errors
 	 	$errors = [];
 	 	#validate first name
 
-	 	if(empty($_POST['fname'])){
+	 	if(empty($_POST['title'])){
 
-	 			$errors['fname'] = "please enter first name";
-
-	 	}
-
-	 	if(empty($_POST['lname'])){
-
-	 			$errors['lname'] = "please enter last name";
+	 			$errors['title'] = "please enter first name";
 
 	 	}
 
-	 	if(empty($_POST['email'])){
+	 	if(empty($_POST['author'])){
 
-	 			$errors['email'] = "please enter email";
+	 			$errors['author'] = "please enter last name";
 
 	 	}
 
-	 	if(doesEmailExist($conn, $_POST['email'])){
+	 	if(empty($_POST['cat'])){
 
-	 			$errors['email'] = "email already exists";
-	 	}
-
-
-	 	if(empty($_POST['password'])){
-
-	 			$errors['password'] = "please enter password";
+	 			$errors['cat'] = "please enter email";
 
 	 	}
 
 
-	 	if($_POST['password'] != $_POST['pword']){
+	 	if(empty($_POST['price'])){
 
-	 			$errors['pword'] = "password do not match";
+	 			$errors['price'] = "please enter password";
 
 	 	}
+
+	 	if(empty($_POST['year'])){
+
+	 			$errors['year'] = "please enter password";
+
+	 	}
+
+	 	if(empty($_POST['isbn'])){
+
+	 			$errors['isbn'] = "please enter password";
+
+	 	}
+
+
 
 	 	if(empty($errors)){
 
 
-	 		//acess database
 	 		$clean = array_map('trim', $_POST);
+
+	 		productUpload($conn,$_FILES,$errors,'pic',$clean);
+
+
+	 		//acess database
+	 		
 
 
 	 		#register admin
 
-	 		doAdminRegister($conn, $clean);
+	 		//doAdminRegister($conn, $clean);
 
 
 	 	}
@@ -95,57 +99,67 @@ $page_title = "Products";
 
 
 <div class="wrapper">
-		<h1 id="register-label">Admin Register</h1>
+		<h1 id="register-label">Add Products</h1>
 		<hr>
-		<form id="register"  action ="register.php" method ="POST">
+		<form id="register"  action ="add_products.php" method ="POST" enctype="multipart/form-data">
 			<div>
 			<?php 
 
-			if(isset($errors['fname'])){
+			if(isset($errors['title'])){
 
 
-				echo '<span class="err">'.$errors['fname']. '</span>' ;
+				echo '<span class="err">'.$errors['title']. '</span>' ;
 			
         } ?>
-				<label>first name:</label>
-				<input type="text" name="fname" placeholder="first name">
+				<label>Title:</label>
+				<input type="text" name="title" placeholder="Title">
 			</div>
 			<div>
 			<?php 
 
-			if(isset($errors['fname'])){
-
-
-				echo '<span class="err">'.$errors['lname']. '</span>' ;
-			
-        }
-
-
-			   ?>
-				<label>last name:</label>	
-				<input type="text" name="lname" placeholder="last name">
+			if(isset($errors['author'])){echo '<span class="err">'.$errors['author']. '</span>' ;} ?>
+				<label>Author</label>	
+				<input type="text" name="author" placeholder="Author">
 			</div>
 			<div>
-			<?php displayError($errors, 'email');   ?>
-				<label>email:</label>
-				<input type="text" name="email" placeholder="email">
+			<?php if(isset($errors['cat'])){	echo '<span class="err">'.$errors['cat']. '</span>' ; } ?>
+				<label>Category:</label>
+				<select name="cat">
+
+				<option value="">Select</option>
+				<?php $view = getCategory($conn); echo $view; ?>
+
+
+
+				</select>
 			</div>
 			<div>
-			<?php displayError($errors, 'password');   ?>
-				<label>password:</label>
-				<input type="password" name="password" placeholder="password">
+			<?php if(isset($errors['price'])){	echo '<span class="err">'.$errors['price']. '</span>' ; } ?>
+				<label>Price:</label>
+				<input type="text" name="price" placeholder="Price">
 			</div>
  
 			<div>
-			<?php displayError($errors, 'pword');   ?>
-				<label>confirm password:</label>	
-				<input type="password" name="pword" placeholder="password">
+			<?php if(isset($errors['year'])){	echo '<span class="err">'.$errors['year']. '</span>' ; } ?>
+				<label>Year:</label>	
+				<input type="text" name="year" placeholder="year">
 			</div>
 
-			<input type="submit" name="register" value="register">
+			<div>
+			<?php if(isset($errors['isbn'])){	echo '<span class="err">'.$errors['isbn']. '</span>' ; } ?>
+				<label>ISBN:</label>	
+				<input type="text" name="isbn" placeholder="ISBN">
+			</div>
+
+			<div>
+			<label>Upload Image:</label>
+			<input type="file" name="pic"/>
+			</div>
+
+			<input type="submit" name="add" value="Add Products">
 		</form>
 
-		<h4 class="jumpto">Have an account? <a href="login.php">login</a></h4>
+		
 	</div>
 
 	<?php 
