@@ -24,6 +24,29 @@ $page_title = "Categories";
 
   }
 ?>
+<?php 
+if(isset($_GET['action'])){
+
+if($_GET['action']= "edit"){
+
+?>
+	<form  id="register" method="post" action="category.php">
+			<input type="text" name="cat_name" placeholder="Category Name" value="<?php echo $_GET['cat_name']; ?>" />
+			<input type="submit" name="edit">
+
+		</form>
+
+
+
+<?php
+}
+
+
+
+}
+
+?>
+
 
 
 	<div class="wrapper">

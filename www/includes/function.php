@@ -175,24 +175,22 @@
 				 $result = "";
 
 	 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+	 			$cat_id = $row['cat_id'];
+	 			$cat_name = $row['cat_name'];
 	 			
 	 			 $result .= "<tr>";
-	 			  $result .= "<td>" .$row['cat_id'].  "</td>";
-	 			   $result .= "<td>" .$row['cat_name'].  "</td>";
+	 			  $result .= "<td>" .$cat_id.  "</td>";
+	 			   $result .= "<td>" .$cat_name.  "</td>";
 
-	 			 $result .=   "<td><a href='#'>edit</a></td>";
-					$result .=	 "<td><a href='#'>delete</a></td> ";
+	 			 $result .=   "<td><a href='category.php?action=edit&cat_id=$cat_id&cat_name=$cat_name'>edit</a></td>";
+					$result .=	 "<td><a href='category.php?action=delete&cat_id=$cat_id'>delete</a></td> ";
 	 			     $result .= "</tr>";
 
 
 	 		}
 	  return $result;
 
-
-
-
-
-
-
 	}
+
+
 	
