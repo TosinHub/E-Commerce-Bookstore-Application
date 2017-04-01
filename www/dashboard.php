@@ -1,23 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>TEST</title>
-	<link rel="stylesheet" type="text/css" href="styles/styles.css">
-</head>
+<?php
+session_start();
+$_SESSION['active'] = true;
 
-<body>
-	<section>
-		<div class="mast">
-			<h1>T<span>SSB</span></h1>
-			<nav>
-				<ul class="clearfix">
-					<li><a href="dashboard.php" class="selected">Dashboard</a></li>
-					<li><a href="#">Categories</a></li>
-					<li><a href="#">Products</a></li>
-				</ul>
-			</nav>
-		</div>
-	</section>
+#connect to databse
+
+ include 'includes/db.php';
+
+ include 'includes/function.php';
+
+
+ include 'includes/header.php';
+?>
+
+
 	<div class="wrapper">
 		<div id="stream">
 			<table id="tab">

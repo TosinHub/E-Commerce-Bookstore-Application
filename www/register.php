@@ -14,6 +14,10 @@ $page_title = "Register";
 
  include 'includes/header.php';
 
+ $tosin = "tosin";
+
+ echo "$tosin";
+
 
 
  if(array_key_exists('register', $_POST)){
@@ -73,11 +77,10 @@ $page_title = "Register";
 	 	}
 
 	 		
+}
 
 
-
- 	} 
-
+ 	
 
  	?>
 
@@ -90,26 +93,45 @@ $page_title = "Register";
 		<hr>
 		<form id="register"  action ="register.php" method ="POST">
 			<div>
-			<?php displayError($errors, 'fname');  ?>
+			<?php 
+
+			if(isset($errors['fname'])){
+
+
+				echo '<span class="err">'.$errors['fname']. '</span>' ;
+			
+        } ?>
 				<label>first name:</label>
 				<input type="text" name="fname" placeholder="first name">
 			</div>
 			<div>
+			<?php 
+
+			if(isset($errors['fname'])){
+
+
+				echo '<span class="err">'.$errors['lname']. '</span>' ;
+			
+        }
+
+
+			   ?>
 				<label>last name:</label>	
 				<input type="text" name="lname" placeholder="last name">
 			</div>
-
 			<div>
 			<?php displayError($errors, 'email');   ?>
 				<label>email:</label>
 				<input type="text" name="email" placeholder="email">
 			</div>
 			<div>
+			<?php displayError($errors, 'password');   ?>
 				<label>password:</label>
 				<input type="password" name="password" placeholder="password">
 			</div>
  
 			<div>
+			<?php displayError($errors, 'pword');   ?>
 				<label>confirm password:</label>	
 				<input type="password" name="pword" placeholder="password">
 			</div>
@@ -120,4 +142,8 @@ $page_title = "Register";
 		<h4 class="jumpto">Have an account? <a href="login.php">login</a></h4>
 	</div>
 
-	<?php include 'includes/footer.php' ?>
+	<?php 
+
+
+
+	include 'includes/footer.php' ?>
