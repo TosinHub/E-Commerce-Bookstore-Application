@@ -1,12 +1,12 @@
 <?php
 session_start();
 $_SESSION['active'] = true;
-$_SESSION ['cat_page'] = true;
+$_SESSION ['product_page'] = true;
 
 #connect to databse
 
 
-$page_title = "Categories";
+$page_title = "Products";
 
  include 'includes/db.php';
 
@@ -49,9 +49,9 @@ if(isset($_GET['success']))
 
 
 <?php 
-	if(isset($_GET['action'])){
+if(isset($_GET['action'])){
 
-	if($_GET['action']= "edit"){
+if($_GET['action']= "edit"){
 
 ?>
 
@@ -69,14 +69,14 @@ if(isset($_GET['success']))
 		}
 
 
-	if(isset($_GET['act'])){
+if(isset($_GET['act'])){
 
 
-	if ($_GET['act']= "delete") {
+			if ($_GET['act']= "delete") {
 				deleteCat($conn,$_GET['cat_id']);
 			}
 
-		}
+}
 
 
 
@@ -88,7 +88,7 @@ if(isset($_GET['success']))
 
 		<form  id="register" method="post" action="category.php">
 			<input type="text" name="cat_name" placeholder="Category Name" />
-			<input type="submit" name="add" value="Add">
+			<input type="Add" name="add">
 
 		</form>
 

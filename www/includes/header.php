@@ -15,6 +15,12 @@ if(isset($_SESSION['cat_page'])){
 	echo "Categories";
 }
 
+
+if(isset($_SESSION['product_page'])){
+
+	echo "Products";
+}
+
 if(isset($_SESSION['active']) && $_SESSION['active']){
 
 ?>
@@ -23,7 +29,10 @@ if(isset($_SESSION['active']) && $_SESSION['active']){
 				<ul class="clearfix">
 					<li><a href="dashboard.php" class="selected">Dashboard</a></li>
 					<li><a href="category.php">Categories</a></li>
-					<li><a href="#">Products</a></li>
+					<li><a href="product.php">View Products</a></li>
+					<li><a href="add_products.php">Add Products</a></li>
+					
+					</li>
 				</ul>
 			</nav>
 		

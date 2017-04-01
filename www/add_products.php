@@ -3,7 +3,17 @@
 
 <?php
 
-$page_title = "Register";
+$page_title = "Add Products";
+
+session_start();
+$_SESSION['active'] = true;
+$_SESSION ['product_page'] = true;
+
+#connect to databse
+
+
+$page_title = "Products";
+
 
 
 #connect to databse
@@ -16,8 +26,7 @@ $page_title = "Register";
 
 
 
-
- if(array_key_exists('add', $_POST)){
+ if(array_key_exists('register', $_POST)){
  		#Cache errors
 	 	$errors = [];
 	 	#validate first name
