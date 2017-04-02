@@ -21,6 +21,7 @@ if(isset($_SESSION['active']) && $_SESSION['active']){
 					<li><a href="category.php">Categories</a></li>
 					<li><a href="product.php">View Products</a></li>
 					<li><a href="add_products.php">Add Products</a></li>
+					<li><a href="logout.php">Log Out</a></li>
 					
 					</li>
 				</ul>
