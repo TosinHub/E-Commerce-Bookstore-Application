@@ -30,38 +30,38 @@ $_SESSION['active'] = true;
 
 	 	if(empty($_POST['title'])){
 
-	 			$errors['title'] = "please enter first name";
+	 			$errors['title'] = "please enter title";
 
 	 	}
 
 	 	if(empty($_POST['author'])){
 
-	 			$errors['author'] = "please enter last name";
+	 			$errors['author'] = "please enter author";
 
 	 	}
 
 	 	if(empty($_POST['cat'])){
 
-	 			$errors['cat'] = "please enter email";
+	 			$errors['cat'] = "please select";
 
 	 	}
 
 
 	 	if(empty($_POST['price'])){
 
-	 			$errors['price'] = "please enter password";
+	 			$errors['price'] = "please enter price";
 
 	 	}
 
 	 	if(empty($_POST['year'])){
 
-	 			$errors['year'] = "please enter password";
+	 			$errors['year'] = "please enter year of publication";
 
 	 	}
 
 	 	if(empty($_POST['isbn'])){
 
-	 			$errors['isbn'] = "please enter password";
+	 			$errors['isbn'] = "please enter isbn";
 
 	 	}
 
@@ -99,25 +99,20 @@ $_SESSION['active'] = true;
 
 
 <div class="wrapper">
+<div id="stream">
 		<h1 id="register-label">Add Products</h1>
 		<hr>
 		<form id="register"  action ="add_products.php" method ="POST" enctype="multipart/form-data">
 			<div>
 			<?php 
+				if(isset($_GET['success'])){echo $_GET['success'];}
 
-			if(isset($errors['title'])){
-
-
-				echo '<span class="err">'.$errors['title']. '</span>' ;
-			
-        } ?>
+			if(isset($errors['title'])){echo '<span class="err">'.$errors['title']. '</span>' ;} ?>
 				<label>Title:</label>
 				<input type="text" name="title" placeholder="Title">
 			</div>
 			<div>
-			<?php 
-
-			if(isset($errors['author'])){echo '<span class="err">'.$errors['author']. '</span>' ;} ?>
+			<?php if(isset($errors['author'])){echo '<span class="err">'.$errors['author']. '</span>' ;} ?>
 				<label>Author</label>	
 				<input type="text" name="author" placeholder="Author">
 			</div>
@@ -152,6 +147,8 @@ $_SESSION['active'] = true;
 			</div>
 
 			<div>
+
+			<?php if(isset($errors['pic'])){	echo '<span class="err">'.$errors['pic']. '</span>' ; } ?>
 			<label>Upload Image:</label>
 			<input type="file" name="pic"/>
 			</div>
@@ -160,6 +157,7 @@ $_SESSION['active'] = true;
 		</form>
 
 		
+	</div>
 	</div>
 
 	<?php 

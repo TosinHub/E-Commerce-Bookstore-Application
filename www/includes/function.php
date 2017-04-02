@@ -288,12 +288,17 @@ function productUpload($dbconn,$files,$error,$pic,$input){
                   }
 
 
+
+	 			 if(empty($error))
+                 {
+
+
                   $stmt = $dbconn->prepare("INSERT INTO book(title,author,cat_id,price,year,isbn,image_path) 
                   	VALUES (:t,:a,:c,:p,:y,:i,:im)");
 
 	 		//bind params
 
-	 		$data = [
+	 			$data = [
 	 					':t' => $input['title'],
 	 					':a' => $input['author'],
 	 					':c' => $input['cat'],
@@ -304,10 +309,77 @@ function productUpload($dbconn,$files,$error,$pic,$input){
 
 	 					
 
-	 		];
-	 		$stmt->execute($data);
+	 					];
+	 			$stmt->execute($data);
+
+                  $success = "Product Added";
+                  header("Location:add_products.php?success=$success");
+
+                 }
+
+             else
+                 
+                {
+                    
+                    foreach ($error as $err) 
+                     {
+
+
+                 echo $err. "</br>";
+                
+                     }
+
+
+
+
+               }
 
 		}
+
+
 	 		
+	 
+	function viewProducts($dbconn){
+				$stmt = $dbconn->prepare("SELECT * FROM book ");
+				 $stmt->execute();
+				 $result = "";
+
+	 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+	 			$book_id = $row['book_id'];
+	 			$title = $row['title'];
+	 			$author = $row['author'];
+	 			$cat_id = $row['cat_id'];
+	 			$price = $row['price'];
+	 			$year = $row['year'];
+	 			$isbn = $row['isbn'];
+	 			$image_path = $row['image_path'];
+	 			
+	 			 $result .= "<tr>";
+	 			 $result .= "<td>" .$title.  "</td>";
+	 			 $result .= "<td>" .$author.  "</td>";
+	 			 $result .= "<td>" .$price.  "</td>";
+	 			 $result .= "<td>" .$year.  "</td>";
+	 			 $result .= "<td>" .$isbn.  "</td>";
+	 			 $result .= "<td><img src='$image_path'  height='20px' width='20px' /></td>";
+	 			 $result .=   "<td><a href='edit_products.php?book_id=$book_id'>edit</a></td>";
+					$result .=	 "<td><a href='product.php?delete=$book_id'>delete</a></td> ";
+	 			     $result .= "</tr>";
+
+
+	 		}
+	  return $result;
+
+	}	
 	 	
-	 	
+
+	 function deleteProduct($dbconn, $input){
+
+
+		$stmt = $dbconn->prepare("DELETE FROM  book WHERE book_id = :i ");
+
+		$stmt->bindParam(":i", $input);
+		 $stmt->execute();
+		 $success = "Product deleted!";
+  		header("Location:product.php?success=$success");
+
+}

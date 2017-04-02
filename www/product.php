@@ -31,11 +31,7 @@ $page_title = "Products";
 
 
   }
-if(isset($_GET['success']))
-		{
 
-			echo $_GET['success'];
-		}
 
 ?>
 
@@ -49,67 +45,44 @@ if(isset($_GET['success']))
 
 
 <?php 
-if(isset($_GET['action'])){
 
-if($_GET['action']= "edit"){
-
-?>
-
-<h3>Edit Category</h3>
-	<form  id="register" method="post" action="category.php">
-			<input type="text" name="cat_name" placeholder="Category Name" value="<?php echo $_GET['cat_name']; ?>" />
-			<input type="hidden" name="cat_id" value="<?php echo $_GET['cat_id']; ?>">
-			<input type="submit" name="edit">
-
-		</form>
-
-			<?php
+if(isset($_GET['delete'])){
+			
+				deleteProduct($conn,$_GET['delete']);
 			}
 
+if(isset($_GET['success']))
+		{
+
+			echo $_GET['success'];
 		}
 
 
-if(isset($_GET['act'])){
-
-
-			if ($_GET['act']= "delete") {
-				deleteCat($conn,$_GET['cat_id']);
-			}
-
-}
-
-
 
 ?>
-
-
-<h3>Add Category</h3>
-
-
-		<form  id="register" method="post" action="category.php">
-			<input type="text" name="cat_name" placeholder="Category Name" />
-			<input type="Add" name="add">
-
-		</form>
 
 
 		</p><br/><br/>
 
 <hr>
 
-		<h3>Available categories</h3>
+		<h3>Available Products</h3>
 			<table id="tab">
 				<thead>
 					<tr>
-						<th>Category Id</th>
-						<th>Category Name</th>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Price</th>
+						<th>Year</th>
+						<th>ISBN</th>
+						<th>Image</th>
 						<th>edit</th>
 						<th>delete</th>
 					</tr>
 				</thead>
 				<tbody>
 					
-						<?php  $view = showCategory($conn); echo $view; ?>
+						<?php  $view = viewProducts($conn); echo $view; ?>
 						
 						
           		</tbody>

@@ -1,42 +1,36 @@
 <?php
-session_start();
-$_SESSION['active'] = true;
-$_SESSION ['cat_page'] = true;
+		session_start();
+		$_SESSION['active'] = true;
+		$_SESSION ['cat_page'] = true;
 
-#connect to databse
-
-
-$page_title = "Categories";
-
- include 'includes/db.php';
-
- include 'includes/function.php';
+		#connect to databse
 
 
- include 'includes/header.php';
+		$page_title = "Categories";
+
+		 include 'includes/db.php';
+		 include 'includes/function.php';
+
+
+		 include 'includes/header.php';
 
 
 
-  if(array_key_exists('add', $_POST)){
-	$clean = array_map('trim', $_POST);
-  	addCategory($conn,$clean);
+	if(array_key_exists('add', $_POST)){
+		$clean = array_map('trim', $_POST);
+	  	addCategory($conn,$clean);
 
 
-  }
+	 	 }
 
 
-   if(array_key_exists('edit', $_POST)){
-	$clean = array_map('trim', $_POST);
-  	editCategory($conn,$clean);
+	 if(array_key_exists('edit', $_POST)){
+		$clean = array_map('trim', $_POST);
+	  	editCategory($conn,$clean);
 
 
-  }
-if(isset($_GET['success']))
-		{
-
-			echo $_GET['success'];
 		}
-
+	
 ?>
 
 
@@ -49,9 +43,19 @@ if(isset($_GET['success']))
 
 
 <?php 
-	if(isset($_GET['action'])){
 
-	if($_GET['action']= "edit"){
+	if(isset($_GET['success']))
+				{
+
+					echo $_GET['success'];
+				}
+
+
+	if(isset($_GET['action']))
+			{
+
+	if($_GET['action']= "edit")
+				{
 
 ?>
 
@@ -61,12 +65,12 @@ if(isset($_GET['success']))
 			<input type="hidden" name="cat_id" value="<?php echo $_GET['cat_id']; ?>">
 			<input type="submit" name="edit">
 
-		</form>
+	</form>
 
-			<?php
-			}
+<?php
+				}
 
-		}
+			}	
 
 
 	if(isset($_GET['act'])){
