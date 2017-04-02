@@ -360,7 +360,7 @@ function productUpload($dbconn,$files,$error,$pic,$input){
 	 			 $result .= "<td>" .$price.  "</td>";
 	 			 $result .= "<td>" .$year.  "</td>";
 	 			 $result .= "<td>" .$isbn.  "</td>";
-	 			 $result .= "<td><img src='$image_path'  height='20px' width='20px' /></td>";
+	 			 $result .= "<td><img src='$image_path'  height='100px' width='100px' /></td>";
 	 			 $result .=   "<td><a href='edit_products.php?book_id=$book_id'>edit</a></td>";
 					$result .=	 "<td><a href='product.php?delete=$book_id'>delete</a></td> ";
 	 			     $result .= "</tr>";
@@ -383,3 +383,115 @@ function productUpload($dbconn,$files,$error,$pic,$input){
   		header("Location:product.php?success=$success");
 
 }
+
+
+
+
+
+
+
+function editProduct($dbconn,$files,$error,$pic,$input,$id){
+
+
+			 define('MAX_FILE_SIZE', "2097152");
+
+    #allowed extentions
+
+    $ext = ["image/jpg","image/jpeg","image/png"];
+
+     if(empty($files[$pic]['name']))
+                  {
+            $error[$pic] = "Please choose a file";
+
+
+                  }
+
+
+
+
+                   if($files[$pic]['size'] > MAX_FILE_SIZE)
+                  {
+                         $error[$pic] = "File exceeds maximum sixe. Maximum size:" . MAX_FILE_SIZE;
+                  }
+
+  #check file type/extention
+       if(!in_array($files[$pic]['type'], $ext))
+                  {
+
+                        $error[$pic] = "Invalid file type";
+
+                  }
+
+
+    #generate random number to append
+                  $rnd = rand(000000000000, 999999999999);
+
+    # strip filename for spaces
+                  $strip_name = str_replace("", "_",$_FILES['pic']['name'] );
+                  $filename = $rnd.$strip_name;
+                  $destination = 'uploads/' .$filename;
+
+
+        if(!move_uploaded_file($files[$pic]['tmp_name'], $destination))
+                  {
+
+                    $error[$pic] = "file upload failed";
+                  }
+
+
+
+	 			 if(empty($error))
+                 {
+
+
+                  $stmt = $dbconn->prepare("UPDATE book  
+                  	SET title =:t,
+                  		author = :a,
+                  		cat_id = :c,
+                  		price = :p,
+                  		year = :y,
+                  		isbn =:i,
+                  		image_path =:im 
+
+
+
+                  	WHERE book_id = :id");
+
+	 		//bind params
+
+	 			$data = [
+	 					':t' => $input['title'],
+	 					':a' => $input['author'],
+	 					':c' => $input['cat'],
+	 					':p' => $input['price'],
+	 					':y' => $input['year'],
+	 					':i' => $input['isbn'],
+	 					':id' => $id,
+	 					':im' => $destination,
+
+	 					];
+	 			$stmt->execute($data);
+
+                  $success = "Product Edited";
+                  header("Location:product.php?success=$success");
+
+                 }
+
+             else
+                 
+                {
+                    
+                    foreach ($error as $err) 
+                     {
+
+
+                 echo $err. "</br>";
+                
+                     }
+
+
+
+
+               }
+
+		}

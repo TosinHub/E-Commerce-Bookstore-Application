@@ -3,7 +3,7 @@
 
 <?php
 
-$page_title = "Add Products";
+$page_title = "Edit Products";
 
 session_start();
 $_SESSION['active'] = true;
@@ -21,7 +21,26 @@ $_SESSION['active'] = true;
 
  include 'includes/header.php';
 
+if(isset($_GET['book_id'])){
 
+$book_id = $_GET['book_id'];
+
+				 $stmt = $conn->prepare("SELECT * FROM book WHERE book_id = :id ");
+				 $stmt->bindParam(":id", $book_id);
+				 $stmt->execute();
+				
+
+	 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+	 			$title = $row['title'];
+	 			$author = $row['author'];
+	 			$cat_id = $row['cat_id'];
+	 			$price = $row['price'];
+	 			$year = $row['year'];
+	 			$isbn = $row['isbn'];
+	 			$image_path = $row['image_path'];
+
+
+} 
 
  if(array_key_exists('add', $_POST)){
  		#Cache errors
@@ -72,7 +91,7 @@ $_SESSION['active'] = true;
 
 	 		$clean = array_map('trim', $_POST);
 
-	 		productUpload($conn,$_FILES,$errors,'pic',$clean);
+	 		editProduct($conn,$_FILES,$errors,'pic',$clean,$book_id);
 
 
 	 		//acess database
@@ -100,22 +119,20 @@ $_SESSION['active'] = true;
 
 <div class="wrapper">
 <div id="stream">
-		<?php if(isset($_GET['success'])){echo $_GET['success'];} ?>
-		<h1 id="register-label">Add Products</h1>
+		<h1 id="register-label">Edit Products</h1>
 		<hr>
-		<form id="register"  action ="add_products.php" method ="POST" enctype="multipart/form-data">
+		<form id="register"  action ="edit_products.php" method ="POST" enctype="multipart/form-data">
 			<div>
 			<?php 
-				if(isset($_GET['success'])){echo $_GET['success'];}
 
 			if(isset($errors['title'])){echo '<span class="err">'.$errors['title']. '</span>' ;} ?>
 				<label>Title:</label>
-				<input type="text" name="title" placeholder="Title">
+				<input type="text" name="title" placeholder="Title" value="<?php echo $title; ?>">
 			</div>
 			<div>
 			<?php if(isset($errors['author'])){echo '<span class="err">'.$errors['author']. '</span>' ;} ?>
 				<label>Author</label>	
-				<input type="text" name="author" placeholder="Author">
+				<input type="text" name="author" placeholder="Author" value="<?php echo $author; ?>">
 			</div>
 			<div>
 			<?php if(isset($errors['cat'])){	echo '<span class="err">'.$errors['cat']. '</span>' ; } ?>
@@ -132,26 +149,26 @@ $_SESSION['active'] = true;
 			<div>
 			<?php if(isset($errors['price'])){	echo '<span class="err">'.$errors['price']. '</span>' ; } ?>
 				<label>Price:</label>
-				<input type="text" name="price" placeholder="Price">
+				<input type="text" name="price" placeholder="Price" value="<?php echo $price; ?>">
 			</div>
  
 			<div>
 			<?php if(isset($errors['year'])){	echo '<span class="err">'.$errors['year']. '</span>' ; } ?>
 				<label>Year:</label>	
-				<input type="text" name="year" placeholder="year">
+				<input type="text" name="year" placeholder="year" value="<?php echo $year; ?>">
 			</div>
 
 			<div>
 			<?php if(isset($errors['isbn'])){	echo '<span class="err">'.$errors['isbn']. '</span>' ; } ?>
 				<label>ISBN:</label>	
-				<input type="text" name="isbn" placeholder="ISBN">
+				<input type="text" name="isbn" placeholder="ISBN" value="<?php echo $isbn; ?>">
 			</div>
 
 			<div>
 
 			<?php if(isset($errors['pic'])){	echo '<span class="err">'.$errors['pic']. '</span>' ; } ?>
 			<label>Upload Image:</label>
-			<input type="file" name="pic"/>
+			<input type="file" name="pic" value="<?php echo $image_path; ?>" />
 			</div>
 
 			<input type="submit" name="add" value="Add Products">
