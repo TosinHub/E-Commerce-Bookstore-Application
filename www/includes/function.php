@@ -390,7 +390,7 @@ function productUpload($dbconn,$files,$error,$pic,$input){
 
 
 
-function editProduct($dbconn,$files,$error,$pic,$input,$id){
+function editProduct($dbconn,$files,$error,$pic,$input){
 
 
 			 define('MAX_FILE_SIZE', "2097152");
@@ -440,7 +440,7 @@ function editProduct($dbconn,$files,$error,$pic,$input,$id){
 
 
 
-	 			 if(empty($error))
+	 			 else
                  {
 
 
@@ -466,11 +466,13 @@ function editProduct($dbconn,$files,$error,$pic,$input,$id){
 	 					':p' => $input['price'],
 	 					':y' => $input['year'],
 	 					':i' => $input['isbn'],
-	 					':id' => $id,
+	 					':id' => $input['book_id'],
 	 					':im' => $destination,
 
 	 					];
-	 			$stmt->execute($data);
+
+
+	 			if($stmt->execute($data)){;
 
                   $success = "Product Edited";
                   header("Location:product.php?success=$success");
@@ -480,14 +482,9 @@ function editProduct($dbconn,$files,$error,$pic,$input,$id){
              else
                  
                 {
-                    
-                    foreach ($error as $err) 
-                     {
-
-
-                 echo $err. "</br>";
-                
-                     }
+                   
+                		 $success = "Product Edit failed";
+                  header("Location:product.php?success=$success");
 
 
 
@@ -495,3 +492,6 @@ function editProduct($dbconn,$files,$error,$pic,$input,$id){
                }
 
 		}
+
+
+			}

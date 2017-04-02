@@ -91,7 +91,7 @@ $book_id = $_GET['book_id'];
 
 	 		$clean = array_map('trim', $_POST);
 
-	 		editProduct($conn,$_FILES,$errors,'pic',$clean,$book_id);
+	 		editProduct($conn,$_FILES,$errors,'pic',$clean);
 
 
 	 		//acess database
@@ -169,8 +169,11 @@ $book_id = $_GET['book_id'];
 			<?php if(isset($errors['pic'])){	echo '<span class="err">'.$errors['pic']. '</span>' ; } ?>
 			<label>Upload Image:</label>
 			<input type="file" name="pic" value="<?php echo $image_path; ?>" />
-			</div>
 
+
+
+			</div>
+			<input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
 			<input type="submit" name="add" value="Add Products">
 		</form>
 
