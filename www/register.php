@@ -15,9 +15,9 @@ $page_title = "Register";
  include 'includes/header.php';
 
 
+$errors = [];
 
-
- if(array_key_exists('add', $_POST)){
+ if(array_key_exists('register', $_POST)){
  		#Cache errors
 	 	$errors = [];
 	 	#validate first name
@@ -90,45 +90,28 @@ $page_title = "Register";
 		<hr>
 		<form id="register"  action ="register.php" method ="POST">
 			<div>
-			<?php 
-
-			if(isset($errors['fname'])){
-
-
-				echo '<span class="err">'.$errors['fname']. '</span>' ;
-			
-        } ?>
+			<?php if(isset($errors['fname'])){echo '<span class="err">'.$errors['fname']. '</span>' ; } ?>
 				<label>first name:</label>
 				<input type="text" name="fname" placeholder="first name">
 			</div>
 			<div>
-			<?php 
-
-			if(isset($errors['fname'])){
-
-
-				echo '<span class="err">'.$errors['lname']. '</span>' ;
-			
-        }
-
-
-			   ?>
+			<?php if(isset($errors['fname'])){ echo '<span class="err">'.$errors['lname']. '</span>' ;}  ?>
 				<label>last name:</label>	
 				<input type="text" name="lname" placeholder="last name">
 			</div>
 			<div>
-			<?php displayError($errors, 'email');   ?>
+			<?php $errors = []; displayError($errors, 'email');   ?>
 				<label>email:</label>
 				<input type="text" name="email" placeholder="email">
 			</div>
 			<div>
-			<?php displayError($errors, 'password');   ?>
+			<?php //displayError($errors, 'password');   ?>
 				<label>password:</label>
 				<input type="password" name="password" placeholder="password">
 			</div>
  
 			<div>
-			<?php displayError($errors, 'pword');   ?>
+			<?php //displayError($errors, 'pword');   ?>
 				<label>confirm password:</label>	
 				<input type="password" name="pword" placeholder="password">
 			</div>

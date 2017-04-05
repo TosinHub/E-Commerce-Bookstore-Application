@@ -43,7 +43,23 @@ $page_title = "Login";
 
 	 		#register admin
 
-	 		doAdminLogin($conn, $clean);
+	 		$check = doAdminLogin($conn, $clean);
+
+	 		if($check){
+
+	 			redirect('dashboard.php');
+	 		}
+	 		else{
+
+
+	 			$login_error = "Invalid Username and/or Password";
+
+
+	 			redirect('dashboard.php?login_error=$login_error');
+			
+
+
+	 		}
 
 
 	 	}

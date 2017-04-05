@@ -105,8 +105,7 @@ $_SESSION['active'] = true;
 		<hr>
 		<form id="register"  action ="add_products.php" method ="POST" enctype="multipart/form-data">
 			<div>
-			<?php 
-				if(isset($_GET['success'])){echo $_GET['success'];}
+			<?php if(isset($_GET['success'])){echo $_GET['success'];}
 
 			if(isset($errors['title'])){echo '<span class="err">'.$errors['title']. '</span>' ;} ?>
 				<label>Title:</label>

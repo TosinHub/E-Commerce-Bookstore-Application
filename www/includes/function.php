@@ -29,7 +29,7 @@
 
 
 	function doAdminLogin($dbconn, $input){
- 		
+ 			$result = true;
 
 	 		//INSERT DATA INTO TABLE
 	 		$stmt = $dbconn->prepare("SELECT * FROM  admin WHERE email = :e  ");
@@ -38,28 +38,24 @@
 
 	 		$stmt->bindParam(":e", $input['email']);
 	 		$stmt->execute();
-	 		$count = $stmt->rowCount();
-
-
-	 		if($count == 1){
+	 		$count = $stmt->rowCount();	 		
 	 		
 	 		$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-	 		if(password_verify($input['password'],$result['hash'])){	 		
-
-	 			header("Location:dashboard.php");
-			}else{
-
-				$login_error = "Invalid Username and/or Password";
-				header("Location:login.php?login_error=$login_error");
-
-				}														
-
-
-	 		}
-
+	 		if($count !== 1 OR !password_verify($input['password'], $result['hash'])) {
+			$result = false;
 		}
 
+
+		return $result;
+	}
+															
+
+
+
+	function redirect($loc) {
+		header("Location: ".$loc);
+	}
 		function fileUpload($files,$error,$pic){
 
 
