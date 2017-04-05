@@ -67,6 +67,33 @@ $_SESSION['active'] = true;
 
 
 
+	define('MAX_FILE_SIZE', "2097152");
+
+    #allowed extentions
+
+    $ext = ["image/jpg","image/jpeg","image/png"];
+
+     if(empty($_FILES['pic']['name']))
+                  {
+            $errors['pic'] = "Please choose a file";
+
+
+                  }
+	 if($_FILES['pic']['size'] > MAX_FILE_SIZE)
+                  {
+            $errors['pic'] = "File exceeds maximum sixe. Maximum size:" . MAX_FILE_SIZE;
+                  }
+
+  #check file type/extention
+       if(!in_array($_FILES['pic']['type'], $ext))
+                  {
+
+                        $errors['pic'] = "Invalid file type";
+
+                  }
+
+
+
 	 	if(empty($errors)){
 
 

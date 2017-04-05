@@ -56,7 +56,10 @@
 	function redirect($loc) {
 		header("Location: ".$loc);
 	}
-		function fileUpload($files,$error,$pic){
+		
+
+
+function fileUpload($files,$error,$pic){
 
 
 			 define('MAX_FILE_SIZE', "2097152");
@@ -238,34 +241,6 @@
 function productUpload($dbconn,$files,$error,$pic,$input){
 
 
-			 define('MAX_FILE_SIZE', "2097152");
-
-    #allowed extentions
-
-    $ext = ["image/jpg","image/jpeg","image/png"];
-
-     if(empty($files[$pic]['name']))
-                  {
-            $error[$pic] = "Please choose a file";
-
-
-                  }
-
-
-
-
-                   if($files[$pic]['size'] > MAX_FILE_SIZE)
-                  {
-                         $error[$pic] = "File exceeds maximum sixe. Maximum size:" . MAX_FILE_SIZE;
-                  }
-
-  #check file type/extention
-       if(!in_array($files[$pic]['type'], $ext))
-                  {
-
-                        $error[$pic] = "Invalid file type";
-
-                  }
 
 
     #generate random number to append
@@ -282,10 +257,7 @@ function productUpload($dbconn,$files,$error,$pic,$input){
 
                     $error[$pic] = "file upload failed";
                   }
-
-
-
-	 			 if(empty($error))
+	 			else
                  {
 
 
@@ -312,23 +284,6 @@ function productUpload($dbconn,$files,$error,$pic,$input){
                   header("Location:add_products.php?success=$success");
 
                  }
-
-             else
-                 
-                {
-                    
-                    foreach ($error as $err) 
-                     {
-
-
-                 echo $err. "</br>";
-                
-                     }
-
-
-
-
-               }
 
 		}
 
