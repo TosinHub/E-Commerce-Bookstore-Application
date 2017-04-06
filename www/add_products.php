@@ -84,23 +84,53 @@ $_SESSION['active'] = true;
             $errors['pic'] = "File exceeds maximum sixe. Maximum size:" . MAX_FILE_SIZE;
                   }
 
+                  $check = UploadFiles($_FILES,'pic','uploads/');
+
+                  if($check[0])
+                  {
+                  	$destination = $check[1];
+                  }
+
+                  else{
+                  	$errors['pic'] = "file upload failed";
+
+                  }
   #check file type/extention
-       if(!in_array($_FILES['pic']['type'], $ext))
+      /* if(!in_array($_FILES['pic']['type'], $ext))
                   {
 
                         $errors['pic'] = "Invalid file type";
 
                   }
 
+                   $rnd = rand(000000000000, 999999999999);
 
+    # strip filename for spaces
+                  $strip_name = str_replace("", "_",$_FILES['pic']['name'] );
+                  $filename = $rnd.$strip_name;
+                  $destination = 'uploads/' .$filename;
+
+
+        if(!move_uploaded_file($_FILES['pic']['tmp_name'], $destination))
+                  {
+
+                    $error['pic'] = "file upload failed";
+                  }
+
+*/
 
 	 	if(empty($errors)){
 
 
 	 		$clean = array_map('trim', $_POST);
+	 		$check = productUpload($conn,$clean,$destination);
 
-	 		productUpload($conn,$_FILES,$errors,'pic',$clean);
+	 		if($check){
 
+
+	 		 $success = "Product Added";
+	 		 redirect("add_products.php?success=$success");
+              }
 
 	 		//acess database
 	 		

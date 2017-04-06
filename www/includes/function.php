@@ -53,7 +53,7 @@
 
 
 
-	function redirect($loc) {
+	 function redirect($loc) {
 		header("Location: ".$loc);
 	}
 		
@@ -162,7 +162,8 @@ function fileUpload($files,$error,$pic){
 			if($stmt->execute()){
 			
 			$success = "category added";
-  		header("Location:category.php?success=$success");
+			redirect("category.php?success=$success");
+  		//header("Location:category.php?success=$success");
 	 		}
 
 	}
@@ -215,7 +216,7 @@ function fileUpload($files,$error,$pic){
 		$stmt->bindParam(":i", $input);
 		 $stmt->execute();
 		 $success = "category deleted!";
-  		header("Location:category.php?success=$success");
+  		redirect("category.php?success=$success");
 
 }
 	
@@ -237,30 +238,29 @@ function fileUpload($files,$error,$pic){
 	}
 
 
+function UploadFiles($file, $name, $uploadDir) {
+	$data = [];
+	$rnd = rand (0000000000,9999999999);
 
-function productUpload($dbconn,$files,$error,$pic,$input){
+	$strip_name = str_replace ("","",$_FILES['pic']['name']);
+
+	$filename = $rnd.$strip_name;
+	$destination = $uploadDir .$filename;
+
+	if (!move_uploaded_file($file[$name]['tmp_name'], $destination)){
+		$data[] = false;
+	} else {
+		$data[] = true;
+		$data[] = $destination;
+	}
+
+	return $data;
+}
 
 
-
-
+function productUpload($dbconn,$input,$destination){
     #generate random number to append
-                  $rnd = rand(000000000000, 999999999999);
-
-    # strip filename for spaces
-                  $strip_name = str_replace("", "_",$_FILES['pic']['name'] );
-                  $filename = $rnd.$strip_name;
-                  $destination = 'uploads/' .$filename;
-
-
-        if(!move_uploaded_file($files[$pic]['tmp_name'], $destination))
-                  {
-
-                    $error[$pic] = "file upload failed";
-                  }
-	 			else
-                 {
-
-
+				  $result = true;
                   $stmt = $dbconn->prepare("INSERT INTO book(title,author,cat_id,price,year,isbn,image_path) 
                   	VALUES (:t,:a,:c,:p,:y,:i,:im)");
 
@@ -278,12 +278,12 @@ function productUpload($dbconn,$files,$error,$pic,$input){
 	 					
 
 	 					];
-	 			$stmt->execute($data);
+	 			if(!$stmt->execute($data)){
 
-                  $success = "Product Added";
-                  header("Location:add_products.php?success=$success");
-
-                 }
+	 				$result = false;
+	 			}
+    				return $result;
+                 
 
 		}
 
