@@ -54,8 +54,6 @@ $page_title = "Login";
 
 	 			redirect('login.php?message=Invalid Username and/or Password');
 			
-
-
 	 		}
 
 
@@ -80,7 +78,7 @@ $page_title = "Login";
 
 <div class="wrapper">
 
-<?php if(isset($_GET['message'])){ echo $_GET['message'];}?>
+<?php if(isset($_GET['message'])){ echo  $_GET['message'] ;}?>
 	<h1 id="register-label">Admin Login</h1>
 	<hr>
 	<form id="register" action ="login.php" method ="POST">

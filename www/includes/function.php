@@ -341,58 +341,9 @@ function productUpload($dbconn,$files,$error,$pic,$input){
 
 
 
-function editProduct($dbconn,$files,$error,$pic,$input){
+function editProduct($dbconn,$input,$destination){
 
 
-			 define('MAX_FILE_SIZE', "2097152");
-
-    #allowed extentions
-
-    $ext = ["image/jpg","image/jpeg","image/png"];
-
-     if(empty($files[$pic]['name']))
-                  {
-            $error[$pic] = "Please choose a file";
-
-
-                  }
-
-
-
-
-                   if($files[$pic]['size'] > MAX_FILE_SIZE)
-                  {
-                         $error[$pic] = "File exceeds maximum sixe. Maximum size:" . MAX_FILE_SIZE;
-                  }
-
-  #check file type/extention
-       if(!in_array($files[$pic]['type'], $ext))
-                  {
-
-                        $error[$pic] = "Invalid file type";
-
-                  }
-
-
-    #generate random number to append
-                  $rnd = rand(000000000000, 999999999999);
-
-    # strip filename for spaces
-                  $strip_name = str_replace("", "_",$_FILES['pic']['name'] );
-                  $filename = $rnd.$strip_name;
-                  $destination = 'uploads/' .$filename;
-
-
-        if(!move_uploaded_file($files[$pic]['tmp_name'], $destination))
-                  {
-
-                    $error[$pic] = "file upload failed";
-                  }
-
-
-
-	 			 else
-                 {
 
 
                   $stmt = $dbconn->prepare("UPDATE book  
@@ -442,7 +393,31 @@ function editProduct($dbconn,$files,$error,$pic,$input){
 
                }
 
-		}
+		
 
 
 			}
+
+
+function nowBook($dbconn,$book_id){
+				 $stmt = $dbconn->prepare("SELECT * FROM book WHERE book_id = :id ");
+				 $stmt->bindParam(":id", $book_id);
+				 $stmt->execute();
+				
+
+	 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+	 			return $row;
+
+	 		}
+
+
+function newCat($dbconn,$id){
+				 $stmt = $dbconn->prepare("SELECT * FROM category WHERE cat_id = :id ");
+				 $stmt->bindParam(":id", $id);
+				 $stmt->execute();
+				
+
+	 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+	 			return $row;
+
+	 		}

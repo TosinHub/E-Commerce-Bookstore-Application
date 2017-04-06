@@ -23,24 +23,13 @@ $_SESSION['active'] = true;
 
 if(isset($_GET['book_id'])){
 
-$book_id = $_GET['book_id'];
 
-				 $stmt = $conn->prepare("SELECT * FROM book WHERE book_id = :id ");
-				 $stmt->bindParam(":id", $book_id);
-				 $stmt->execute();
-				
+$item = nowBook($conn,$_GET['book_id']);
 
-	 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
-	 			$title = $row['title'];
-	 			$author = $row['author'];
-	 			$cat_id = $row['cat_id'];
-	 			$price = $row['price'];
-	 			$year = $row['year'];
-	 			$isbn = $row['isbn'];
-	 			$image_path = $row['image_path'];
+$cat = newCat($conn, $item['cat_id']);
 
 
-} 
+}
 
  if(array_key_exists('add', $_POST)){
  		#Cache errors
@@ -86,12 +75,57 @@ $book_id = $_GET['book_id'];
 
 
 
+	 	 define('MAX_FILE_SIZE', "2097152");
+
+    #allowed extentions
+
+    $ext = ["image/jpg","image/jpeg","image/png"];
+
+     if(empty($_FILES['pic']['name']))
+                  {
+            $errors['pic'] = "Please choose a file";
+
+
+                  }
+
+	if($_FILES['pic']['size'] > MAX_FILE_SIZE)
+                  {
+                         $errors['pic'] = "File exceeds maximum sixe. Maximum size:" . MAX_FILE_SIZE;
+                  }
+
+  #check file type/extention
+       if(!in_array($_FILES['pic']['type'], $ext))
+                  {
+
+                        $errors['pic'] = "Invalid file type";
+
+                  }
+		
+
+
+    #generate random number to append
+                  $rnd = rand(000000000000, 999999999999);
+
+    # strip filename for spaces
+                  $strip_name = str_replace("", "_",$_FILES['pic']['name'] );
+                  $filename = $rnd.$strip_name;
+                  $destination = 'uploads/' .$filename;
+
+
+        if(!move_uploaded_file($_FILES['pic']['tmp_name'], $destination))
+                  {
+
+                    $errors['pic'] = "file upload failed";
+               }
+
+
+
 	 	if(empty($errors)){
 
 
 	 		$clean = array_map('trim', $_POST);
 
-	 		editProduct($conn,$_FILES,$errors,'pic',$clean);
+	 		editProduct($conn,$clean,$destination);
 
 
 	 		//acess database
@@ -121,25 +155,25 @@ $book_id = $_GET['book_id'];
 <div id="stream">
 		<h1 id="register-label">Edit Products</h1>
 		<hr>
-		<form id="register"  action ="edit_products.php" method ="POST" enctype="multipart/form-data">
+		<form id="register"  action ='<?php echo "edit_products.php?book_id=".$_GET['book_id'] ; ?>' method ="POST" enctype="multipart/form-data">
 			<div>
 			<?php 
 
 			if(isset($errors['title'])){echo '<span class="err">'.$errors['title']. '</span>' ;} ?>
 				<label>Title:</label>
-				<input type="text" name="title" placeholder="Title" value="<?php echo $title; ?>">
+				<input type="text" name="title" placeholder="Title" value="<?php echo $item['title']; ?>">
 			</div>
 			<div>
 			<?php if(isset($errors['author'])){echo '<span class="err">'.$errors['author']. '</span>' ;} ?>
 				<label>Author</label>	
-				<input type="text" name="author" placeholder="Author" value="<?php echo $author; ?>">
+				<input type="text" name="author" placeholder="Author" value="<?php echo $item['author']; ?>">
 			</div>
 			<div>
 			<?php if(isset($errors['cat'])){	echo '<span class="err">'.$errors['cat']. '</span>' ; } ?>
 				<label>Category:</label>
 				<select name="cat">
 
-				<option value="">Select</option>
+				<option value="<?php echo $cat['cat_id']; ?>"><?php echo $cat['cat_name']; ?></option>
 				<?php $view = getCategory($conn); echo $view; ?>
 
 
@@ -149,19 +183,19 @@ $book_id = $_GET['book_id'];
 			<div>
 			<?php if(isset($errors['price'])){	echo '<span class="err">'.$errors['price']. '</span>' ; } ?>
 				<label>Price:</label>
-				<input type="text" name="price" placeholder="Price" value="<?php echo $price; ?>">
+				<input type="text" name="price" placeholder="Price" value="<?php echo $item['price']; ?>">
 			</div>
  
 			<div>
 			<?php if(isset($errors['year'])){	echo '<span class="err">'.$errors['year']. '</span>' ; } ?>
 				<label>Year:</label>	
-				<input type="text" name="year" placeholder="year" value="<?php echo $year; ?>">
+				<input type="text" name="year" placeholder="year" value="<?php echo $item['year']; ?>">
 			</div>
 
 			<div>
 			<?php if(isset($errors['isbn'])){	echo '<span class="err">'.$errors['isbn']. '</span>' ; } ?>
 				<label>ISBN:</label>	
-				<input type="text" name="isbn" placeholder="ISBN" value="<?php echo $isbn; ?>">
+				<input type="text" name="isbn" placeholder="ISBN" value="<?php echo $item['isbn']; ?>">
 			</div>
 
 			<div>
@@ -173,7 +207,7 @@ $book_id = $_GET['book_id'];
 
 
 			</div>
-			<input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
+			<input type="hidden" name="book_id" value="<?php echo $item['book_id']; ?>">
 			<input type="submit" name="add" value="Add Products">
 		</form>
 
