@@ -231,7 +231,7 @@ function fileUpload($files,$error,$pic){
 	 			$cat_id = $row['cat_id'];
 	 			$cat_name = $row['cat_name'];
 
-	 			$result .= " <a href='category.php?cat_id=$cat_id'><li class='category'>".$cat_name."</li></a>" ;
+	 			$result .= "<option value=$cat_id>"  .$cat_name ."</option>";
 
 	 		}
 	 		return $result;
@@ -261,8 +261,8 @@ function UploadFiles($file, $name, $uploadDir) {
 function productUpload($dbconn,$input,$destination){
     #generate random number to append
 				  $result = true;
-                  $stmt = $dbconn->prepare("INSERT INTO book(title,author,cat_id,price,year,isbn,image_path) 
-                  	VALUES (:t,:a,:c,:p,:y,:i,:im)");
+                  $stmt = $dbconn->prepare("INSERT INTO book(title,author,cat_id,price,year,isbn,image_path,flag) 
+                  	VALUES (:t,:a,:c,:p,:y,:i,:im,:f)");
 
 	 		//bind params
 
@@ -273,6 +273,7 @@ function productUpload($dbconn,$input,$destination){
 	 					':p' => $input['price'],
 	 					':y' => $input['year'],
 	 					':i' => $input['isbn'],
+	 					':f' => $input['flag'],
 	 					':im' => $destination,
 
 	 					
@@ -421,3 +422,22 @@ function newCat($dbconn,$id){
 	 			return $row;
 
 	 		}
+
+
+	 		function authenticate ()
+		{
+
+				if(!isset($_SESSION['active']))
+
+				{
+
+
+
+
+					redirect("login.php?message=Please login");
+
+					
+				} 
+
+
+		}

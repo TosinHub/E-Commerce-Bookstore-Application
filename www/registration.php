@@ -3,9 +3,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="style/styles.css">
-    <title>Login</title>
+    <title>Registration</title>
 </head>
-<body id="login">
+<body id="registration">
   <!-- DO NOT TAMPER WITH CLASS NAMES! -->
 
   <!-- top bar starts here -->
@@ -31,16 +31,18 @@
   </div>
   <!-- main content starts here -->
   <div class="main">
-    <div class="login-form">
+    <div class="registration-form">
       <form class="def-modal-form">
         <div class="cancel-icon close-form"></div>
-        <label for="login-form" class="header"><h3>Login</h3></label>
-        <input type="text" class="text-field email" placeholder="Email">
-        <p class="form-error">invalid email</p>
+        <label for="registration-from" class="header"><h3>User Registration</h3></label>
+        <input type="text" class="text-field first-name" placeholder="Firstname">
+        <input type="text" class="text-field last-name" placeholder="Lastname">
+        <input type="email" class="text-field email" placeholder="Email">
+        <input type="text" class="text-field username" placeholder="Username">
         <input type="password" class="text-field password" placeholder="Password">
-        <!--clear the error and use it later just to show you how it works -->
-        <p class="form-error">wrong password</p>
-        <input type="submit" class="def-button login" value="Login">
+        <input type="password" class="text-field confirm-password" placeholder="Confirm Password">
+        <input type="submit" class="def-button" value="Register">
+        <p class="login-option">Have an account already? Login</p>
       </form>
     </div>
   </div>

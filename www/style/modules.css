@@ -1,0 +1,110 @@
+.boxing,
+.top-nav,
+.copyright,
+.top-nav-list,
+.top-nav-listItem,
+.trending-books,
+.book-list,
+.categories,
+.modal,
+.def-modal-form,
+.cart-table {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.clearfix,
+.top-nav-list,
+.book-list,
+.def-modal-form,
+.cart-table {
+  content: "";
+  display: table;
+  clear: both;
+}
+.top-nav {
+  position: relative;
+  width: 100%;
+  background-color: #17b5cc;
+  box-shadow: 0px 0px 4.85px 0.15px rgba(0, 0, 0, 0.44);
+}
+.copyright {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-size: 14px;
+  padding: 7px 0 0 24px;
+}
+.top-nav-list {
+  position: relative;
+  float: right;
+}
+.top-nav-listItem {
+  position: relative;
+  float: left;
+}
+.text-field {
+  outline: none;
+  border: none;
+  background-color: white;
+  font-family: 'OpenSans-Light';
+  padding: 6px;
+  resize: none;
+}
+.avatar-def {
+  cursor: pointer;
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
+}
+.cancel-icon {
+  width: 18px;
+  height: 18px;
+  background: url('../svg/cancel.svg') center no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+.def-button {
+  cursor: pointer;
+  position: relative;
+  background-color: #ce2a60;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 1px;
+}
+.trending-books {
+  position: relative;
+  width: 100%;
+}
+.book-list {
+  position: relative;
+  background-color: #f6f6f6;
+}
+.categories {
+  position: relative;
+}
+.modal {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999999999999999;
+}
+.def-modal-form {
+  position: relative;
+  margin: auto;
+  border-radius: 4px;
+  background-color: #eee;
+}
+.cart-table {
+  position: relative;
+  width: 100%;
+  background-color: #e5e5e5;
+  border-collapse: collapse;
+}

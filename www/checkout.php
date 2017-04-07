@@ -3,9 +3,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="style/styles.css">
-    <title>Login</title>
+    <title>Home</title>
 </head>
-<body id="login">
+<body id="checkout">
   <!-- DO NOT TAMPER WITH CLASS NAMES! -->
 
   <!-- top bar starts here -->
@@ -31,16 +31,17 @@
   </div>
   <!-- main content starts here -->
   <div class="main">
-    <div class="login-form">
+    <div class="checkout-form">
       <form class="def-modal-form">
+        <div class="total-cost">
+          <h3>$2000 Total Purchase</h3>
+        </div>
         <div class="cancel-icon close-form"></div>
-        <label for="login-form" class="header"><h3>Login</h3></label>
-        <input type="text" class="text-field email" placeholder="Email">
-        <p class="form-error">invalid email</p>
-        <input type="password" class="text-field password" placeholder="Password">
-        <!--clear the error and use it later just to show you how it works -->
-        <p class="form-error">wrong password</p>
-        <input type="submit" class="def-button login" value="Login">
+        <label for="login-form" class="header"><h3>Checkout</h3></label>
+        <input type="text"  class="text-field phone" placeholder="Phone Number">
+        <input type="text" name="addy" class="text-field address" placeholder="Address">
+        <input type="text" name="code" class="text-field post-code" placeholder="Post Code">
+        <input type="submit" name="chkt" class="def-button checkout" value="Checkout">
       </form>
     </div>
   </div>

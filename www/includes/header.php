@@ -1,40 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php echo $page_title; ?></title>
-	<link rel="stylesheet" type="text/css" href="styles/styles.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="style/styles.css">
+    <title><?php echo $page_title; ?></title>
 </head>
-<body>
-	<section>
-		<div class="mast">
-			<h1>T<span>SSB</span> |
+<body id="home">
+  <!-- DO NOT TAMPER WITH CLASS NAMES! -->
 
-<?php
-
-if(isset($_SESSION['active']) && $_SESSION['active']){
-
-?>
-			</h1>
-			<nav>
-				<ul class="clearfix">
-					<li><a href="dashboard.php" class="selected">Dashboard</a></li>
-					<li><a href="category.php">Categories</a></li>
-					<li><a href="product.php">View Products</a></li>
-					<li><a href="add_products.php">Add Products</a></li>
-					<li><a href="logout.php">Log Out</a></li>
-					
-					</li>
-				</ul>
-			</nav>
-		
-
-<?php
-}
-else{
+  <!-- top bar starts here -->
+  <div class="top-bar">
+    <div class="top-nav">
+      <a href="index.html"><h3 class="brand"><span>T</span>B<span>S</span>S</h3></a>
+      <ul class="top-nav-list">
+        <li class="top-nav-listItem Home"><a href="index.php">Home</a></li>
+        <li class="top-nav-listItem catalogue"><a href="catalogue.php">Catalogue</a></li>
+        <li class="top-nav-listItem login"><a href="login.php">Login</a></li>
+        <li class="top-nav-listItem register"><a href="registration.php">Register</a></li>
+        <li class="top-nav-listItem cart">
+          <div class="cart-item-indicator">
+            <p>12</p>
+          </div>
+          <a href="cart.html">Cart</a>
+        </li>
+      </ul>
+      <form class="search-brainfood">
+        <input type="text" class="text-field" placeholder="Search all books">
+      </form>
+    </div>
+  </div>
 
 
-}
-?>
 
-</div>
-	</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

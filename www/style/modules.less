@@ -1,0 +1,118 @@
+@turquoise: #17b5cc;
+
+// helper classes //
+
+.boxing {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.clearfix {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+// main modules //
+
+.top-nav:extend(.boxing) {
+  position: relative;
+  width: 100%;
+  background-color: @turquoise;
+  box-shadow: 0px 0px 4.85px 0.15px rgba(0, 0, 0, 0.44);
+  // box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.copyright:extend(.boxing) {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-size: 14px;
+  padding: 7px 0 0 24px;
+}
+
+.top-nav-list:extend(.boxing, .clearfix) {
+  position: relative;
+  float: right;
+}
+
+.top-nav-listItem:extend(.boxing) {
+  position: relative;
+  float: left;
+}
+
+.text-field {
+  outline: none;
+  border: none;
+  background-color: white;
+  font-family: 'OpenSans-Light';
+  padding: 6px;
+  resize: none;
+}
+
+.avatar-def {
+  cursor: pointer;
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
+}
+
+.cancel-icon {
+  width: 18px;
+  height: 18px;
+  background: url('../svg/cancel.svg') center no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.def-button {
+  cursor: pointer;
+  position: relative;
+  background-color: #ce2a60;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 1px;
+}
+
+.trending-books:extend(.boxing) {
+  position: relative;
+  width: 100%;
+}
+
+.book-list:extend(.boxing, .clearfix) {
+  position: relative;
+  background-color: #f6f6f6;
+}
+
+.categories:extend(.boxing) {
+  position: relative;
+}
+
+.modal:extend(.boxing) {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999999999999999;
+}
+
+.def-modal-form:extend(.boxing, .clearfix) {
+  position: relative;
+  margin: auto;
+  border-radius: 4px;
+  background-color: #eee;
+}
+
+.cart-table:extend(.boxing, .clearfix) {
+  position: relative;
+  width: 100%;
+  background-color: #e5e5e5;
+  border-collapse: collapse;
+}
