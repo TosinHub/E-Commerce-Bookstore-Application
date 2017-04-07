@@ -1,7 +1,22 @@
- <?php include 'includes/header.php';
+ <?php 
+session_start();
+
+$page_title = "Home";
+
+if(isset($_GET['username'])){
+$username = $_GET['username'];
+$_SESSION['username'] = $username;
+}
+
+
+
+
 
 
   include 'includes/db.php';
+   include 'includes/function.php';
+
+    include 'includes/header.php';
    ?>
   <!-- main content starts here -->
 
@@ -28,7 +43,10 @@
         
 
 <?php 
-        $f = "trending";
+        $view = trending($conn);
+        echo $view;
+
+     /*   $f = "trending";
         $stmt = $conn->prepare("SELECT * FROM book WHERE flag = :f ");
         $stmt->bindParam(":f", $f);
         $stmt->execute();
@@ -43,7 +61,7 @@
           <div class="book-cover" style=" background: url('<?php  echo "admin/".$row['image_path']; ?>'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div></a>
           <div class="book-price"><p><?php echo $row['price'] ?></p></div>
         </li>        
-        <?php } ?>
+        <?php } */ ?>
 
         </ul>
         

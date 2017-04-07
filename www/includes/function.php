@@ -1,14 +1,14 @@
 <?php
 		
 
-	function doAdminRegister($dbconn, $input){
+	function doUserRegister($dbconn, $input){
 
 				//hash the password
 
 	 		$hash = password_hash($input['password'], PASSWORD_BCRYPT);
 
 	 		//INSERT DATA INTO TABLE
-	 		$stmt = $dbconn->prepare("INSERT INTO admin(fname,lname,email,hash) VALUES (:fn,:ln,:e,:h)");
+	 		$stmt = $dbconn->prepare("INSERT INTO users(fname,lname,email,username,hash) VALUES (:fn,:ln,:e,:u,:h)");
 
 	 		//bind params
 
@@ -16,10 +16,18 @@
 	 					':fn' => $input['fname'],
 	 					':ln' => $input['lname'],
 	 					':e' => $input['email'],
-	 					':h' => $hash,
+	 					':u' => $input['username'],
+	 					':h' => $hash
 
 	 		];
-	 		$stmt->execute($data);
+
+
+	 		if($stmt->execute($data)){
+
+	 			redirect ("login.php");
+	 		}
+	 		
+
 	 	
 	 	
 
@@ -28,11 +36,11 @@
 
 
 
-	function doAdminLogin($dbconn, $input){
+	function doUserLogin($dbconn, $input){
  			$result = true;
 
 	 		//INSERT DATA INTO TABLE
-	 		$stmt = $dbconn->prepare("SELECT * FROM  admin WHERE email = :e  ");
+	 		$stmt = $dbconn->prepare("SELECT * FROM  users WHERE email = :e  ");
 
 	 		//bind params
 
@@ -40,14 +48,17 @@
 	 		$stmt->execute();
 	 		$count = $stmt->rowCount();	 		
 	 		
-	 		$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-	 		if($count !== 1 OR !password_verify($input['password'], $result['hash'])) {
-			$result = false;
+	 		if($count !== 1 OR !password_verify($input['password'], $row['hash'])) {
+			redirect('login.php');
+		}else
+		{
+				$username = $row['username'];
+				redirect('index.php?username='.$username);
 		}
 
 
-		return $result;
 	}
 															
 
@@ -59,58 +70,7 @@
 		
 
 
-function fileUpload($files,$error,$pic){
 
-
-			 define('MAX_FILE_SIZE', "2097152");
-
-    #allowed extentions
-
-    $ext = ["image/jpg","image/jpeg","image/png"];
-
-     if(empty($files[$pic]['name']))
-                  {
-            $error[$pic] = "Please choose a file";
-
-
-                  }
-
-
-
-
-                   if($files[$pic]['size'] > MAX_FILE_SIZE)
-                  {
-                         $error[$pic] = "File exceeds maximum sixe. Maximum size:" . MAX_FILE_SIZE;
-                  }
-
-  #check file type/extention
-       if(!in_array($files[$pic]['type'], $ext))
-                  {
-
-                        $error[$pic] = "Invalid file type";
-
-                  }
-
-
-    #generate random number to append
-                  $rnd = rand(000000000000, 999999999999);
-
-    # strip filename for spaces
-                  $strip_name = str_replace("", "_",$_FILES['pic']['name'] );
-                  $filename = $rnd.$strip_name;
-                  $destination = 'uploads/' .$filename;
-
-
-        if(!move_uploaded_file($files[$pic]['tmp_name'], $destination))
-                  {
-
-                    $error[$pic] = "file upload failed";
-                  }
-
-		}
-	 		
-	 	
-	 	
 
 
 	
@@ -119,7 +79,7 @@ function fileUpload($files,$error,$pic){
 	function doesEmailExist($dbconn, $email){
 			$result = false;
 
-			$stmt = $dbconn->prepare("SELECT email FROM admin WHERE  ");
+			$stmt = $dbconn->prepare("SELECT email FROM users WHERE email = :e");
 
 			#bind parameter
 			$stmt->bindParam(":e", $email);
@@ -152,23 +112,6 @@ function fileUpload($files,$error,$pic){
 
 
 
-	function addCategory($dbconn,$input){
-
-
-			$stmt = $dbconn->prepare("INSERT INTO category(cat_name) VALUES (:c)");
-
-	 		//bind params
-			$stmt->bindParam(":c", $input['cat_name']);
-			if($stmt->execute()){
-			
-			$success = "category added";
-			redirect("category.php?success=$success");
-  		//header("Location:category.php?success=$success");
-	 		}
-
-	}
-
-
 	function showCategory($dbconn){
 				$stmt = $dbconn->prepare("SELECT * FROM category ");
 				 $stmt->execute();
@@ -192,33 +135,8 @@ function fileUpload($files,$error,$pic){
 
 	}
 
-	function editCategory($dbconn,$input){
-
-		$stmt = $dbconn->prepare("UPDATE  category SET cat_name = :cn 	WHERE cat_id = :i ");
-
-		$stmt->bindParam(":cn", $input['cat_name']);
-		$stmt->bindParam(":i", $input['cat_id']);
-		 $stmt->execute();
-		 	$success = "category edited!";
-  		header("Location:category.php?success=$success");
 
 
-
-
-
-	}
-
-	function deleteCat($dbconn, $input){
-
-
-		$stmt = $dbconn->prepare("DELETE FROM  category WHERE cat_id = :i ");
-
-		$stmt->bindParam(":i", $input);
-		 $stmt->execute();
-		 $success = "category deleted!";
-  		redirect("category.php?success=$success");
-
-}
 	
 
 	function getCategory($dbconn)
@@ -238,59 +156,11 @@ function fileUpload($files,$error,$pic){
 	}
 
 
-function UploadFiles($file, $name, $uploadDir) {
-	$data = [];
-	$rnd = rand (0000000000,9999999999);
-
-	$strip_name = str_replace ("","",$_FILES['pic']['name']);
-
-	$filename = $rnd.$strip_name;
-	$destination = $uploadDir .$filename;
-
-	if (!move_uploaded_file($file[$name]['tmp_name'], $destination)){
-		$data[] = false;
-	} else {
-		$data[] = true;
-		$data[] = $destination;
-	}
-
-	return $data;
-}
-
-
-function productUpload($dbconn,$input,$destination){
-    #generate random number to append
-				  $result = true;
-                  $stmt = $dbconn->prepare("INSERT INTO book(title,author,cat_id,price,year,isbn,image_path) 
-                  	VALUES (:t,:a,:c,:p,:y,:i,:im)");
-
-	 		//bind params
-
-	 			$data = [
-	 					':t' => $input['title'],
-	 					':a' => $input['author'],
-	 					':c' => $input['cat'],
-	 					':p' => $input['price'],
-	 					':y' => $input['year'],
-	 					':i' => $input['isbn'],
-	 					':im' => $destination,
-
-	 					
-
-	 					];
-	 			if(!$stmt->execute($data)){
-
-	 				$result = false;
-	 			}
-    				return $result;
-                 
-
-		}
 
 
 	 		
 	 
-	function viewProducts($dbconn){
+	function view($dbconn){
 				$stmt = $dbconn->prepare("SELECT * FROM book ");
 				 $stmt->execute();
 				 $result = "";
@@ -323,80 +193,11 @@ function productUpload($dbconn,$input,$destination){
 	}	
 	 	
 
-	 function deleteProduct($dbconn, $input){
-
-
-		$stmt = $dbconn->prepare("DELETE FROM  book WHERE book_id = :i ");
-
-		$stmt->bindParam(":i", $input);
-		 $stmt->execute();
-		 $success = "Product deleted!";
-  		header("Location:product.php?success=$success");
-
-}
 
 
 
 
 
-
-
-function editProduct($dbconn,$input,$destination){
-
-
-
-
-                  $stmt = $dbconn->prepare("UPDATE book  
-                  	SET title =:t,
-                  		author = :a,
-                  		cat_id = :c,
-                  		price = :p,
-                  		year = :y,
-                  		isbn =:i,
-                  		image_path =:im 
-
-
-
-                  	WHERE book_id = :id");
-
-	 		//bind params
-
-	 			$data = [
-	 					':t' => $input['title'],
-	 					':a' => $input['author'],
-	 					':c' => $input['cat'],
-	 					':p' => $input['price'],
-	 					':y' => $input['year'],
-	 					':i' => $input['isbn'],
-	 					':id' => $input['book_id'],
-	 					':im' => $destination,
-
-	 					];
-
-
-	 			if($stmt->execute($data)){;
-
-                  $success = "Product Edited";
-                  header("Location:product.php?success=$success");
-
-                 }
-
-             else
-                 
-                {
-                   
-                		 $success = "Product Edit failed";
-                  header("Location:product.php?success=$success");
-
-
-
-
-               }
-
-		
-
-
-			}
 
 
 function nowBook($dbconn,$book_id){
@@ -421,3 +222,34 @@ function newCat($dbconn,$id){
 	 			return $row;
 
 	 		}
+
+
+	function trending($dbconn){
+        $f = "trending";
+        $stmt = $dbconn->prepare("SELECT * FROM book WHERE flag = :f ");
+        $stmt->bindParam(":f", $f);
+        $stmt->execute();
+        $result = "";
+        
+
+      while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      	$book_id = $row['book_id'];
+      	$price = $row['price'];
+      	$image_path = $row['image_path'];
+
+
+
+            
+            
+          $result .= "<li class='book'><a href='bookpreview.php?book_id=$book_id'>";
+         $result .= "<div class='book-cover' style=' background: url(\"admin/$image_path\"); background-size: cover; background-position: center; background-repeat: no-repeat;'></div></a> <div class='book-price'><p>$price</p></div>
+        </li>";        
+
+
+        } 
+
+
+        return $result;
+
+
+	}

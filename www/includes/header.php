@@ -15,8 +15,24 @@
       <ul class="top-nav-list">
         <li class="top-nav-listItem Home"><a href="index.php">Home</a></li>
         <li class="top-nav-listItem catalogue"><a href="catalogue.php">Catalogue</a></li>
+
+
+
+        <?php
+
+if(!isset($_GET['username'])){
+
+?>
         <li class="top-nav-listItem login"><a href="login.php">Login</a></li>
         <li class="top-nav-listItem register"><a href="registration.php">Register</a></li>
+
+        <?php } else{
+
+
+        echo "<li class='top-nav-listItem Home'> Welcome ". $_GET['username']. "</li>";
+        	}?>
+
+
         <li class="top-nav-listItem cart">
           <div class="cart-item-indicator">
             <p>12</p>
