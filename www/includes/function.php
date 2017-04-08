@@ -260,27 +260,33 @@ function Users($dbconn,$id){
 
 
 function preview($dbconn,$id){
-        $f = "trending";
+        
         $stmt = $dbconn->prepare("SELECT * FROM preview WHERE book_id = :f ");
         $stmt->bindParam(":f", $id);
         $stmt->execute();
+
+
         $result = "";
         
 
       while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-
       	$preview = $row['r'];
+      	$date = $row['date'];
+
+      	$get = Users($dbconn,$row['user_id']);
+      	$username = $get['username'];
 
 
 
-
+      
       $result .=	"<li class=\"review\"><div class=\"avatar-def user-image\"><h4 class=\"user-init\">jm</h4></div>
           <div class=\"info\">
-            <h4 class=\"username\">Jon Williams</h4>
-            <p class=\"comment\">$preview
-            </p>
+            <h4 class=\"username\">$username</h4>
+            <p style=\"color:#39F;\">$preview</p>
+            <p style=\"color:#900\">$date</p>
           </div>
-        </li>";       
+        </li>"; 
+         
 
 
         } 
@@ -290,7 +296,17 @@ function preview($dbconn,$id){
 
 
 	}
+function rowCountPreview($dbconn,$id){
 
+			 $stmt = $dbconn->prepare("SELECT count(*) FROM preview WHERE book_id = :f ");
+        $stmt->bindParam(":f", $id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_NUM);
+        $rowCount = $row[0];
+         return $rowCount;
+
+
+}
 
 
 

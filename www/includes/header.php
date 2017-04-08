@@ -24,7 +24,6 @@
 if(isset($_SESSION['logged']) == true && $_SESSION['logged'] ){
 
       echo "<li class=\"top-nav-listItem login\" >Welcome  " .$_SESSION['username']. "</li>";
-      echo "<li class=\"top-nav-listItem login\" >" .$_SESSION['user_id']. "</li>";
       echo "<li class='top-nav-listItem login'><a href='logout.php'>Logout</a></li>";
 
  } else{

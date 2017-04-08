@@ -12,6 +12,24 @@ $page_title =  "Book Preview";
 
   $item = Books($conn,$_GET['book_id']);
 
+
+
+if(array_key_exists('add', $_POST)){
+    $clean = array_map('trim', $_POST);
+    $date = date("F j,Y, g:i a");
+
+$stmt = $conn->prepare("INSERT INTO preview(book_id,user_id,r,date) VALUES (:c,:u,:r,:d)");
+
+      //bind params
+      $stmt->bindParam(":c", $clean['book_id']);
+      $stmt->bindParam(":u", $clean['user_id']);
+      $stmt->bindParam(":r", $clean['preview']);
+       $stmt->bindParam(":d", $date);
+      $stmt->execute();
+      redirect('bookpreview.php?book_id='.$clean['book_id']);
+      
+    }
+
    ?>
 
 
@@ -38,6 +56,8 @@ $page_title =  "Book Preview";
 
     <div class="book-reviews">
       <h3 class="header">Reviews</h3>
+     <?php  $rowCount = rowCountPreview($conn,$_GET['book_id']);
+              echo "Total number of reviews: " .$rowCount. " comment(s)"; ?>
       <ul class="review-list">
         <?php   $view = preview($conn,$_GET['book_id']);
 
@@ -50,32 +70,10 @@ $page_title =  "Book Preview";
       <div class="add-comment">
  
 
-          <?php 
-
- 
-
-if(array_key_exists('add', $_POST)){
-    $clean = array_map('trim', $_POST);
-    $date = date("F j,Y, g:i a");
-
-$stmt = $conn->prepare("INSERT INTO preview(book_id,user_id,r,date) VALUES (:c,:u,:r,:d)");
-
-      //bind params
-      $stmt->bindParam(":c", $clean['book_id']);
-      $stmt->bindParam(":u", $clean['user_id']);
-      $stmt->bindParam(":r", $clean['preview']);
-       $stmt->bindParam(":d", $date);
-      $stmt->execute();
-      redirect('bookpreview.php?book_id='.$clean['book_id']);
-      
-    }
+       
 
 
-
-
-
-    ?>
-
+<?php if(isset($_SESSION['logged']) == true && $_SESSION['logged'] ){ ?>
 
     <h3 class="header">Add your Comment</h3>
 
@@ -84,12 +82,15 @@ $stmt = $conn->prepare("INSERT INTO preview(book_id,user_id,r,date) VALUES (:c,:
       <input type="hidden" name="book_id"  value="<?php echo $_GET['book_id'] ?>"/>
       <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>" />
       <textarea class="text-field" name="preview" placeholder="Write Something"></textarea>
-      <input class="def-button post-comment" type="submit" name="add" value="Upload Comment">
+      <input class="def-button post-comment" type="submit" name="add" value="Upload Comment" style="color:#F00  ">
 
     </form>
+<?php }else{
+echo "<button class=\"def-button\" style=\"background-color:#03C;\" > <a href='login.php' style=\"color:#fff \">Please loggin to comment</a></button>";
 
+}
 
-
+?>
 
 
 
