@@ -51,11 +51,15 @@
 	 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 	 		if($count !== 1 OR !password_verify($input['password'], $row['hash'])) {
+			$_SESSION['logged'] = false;
 			redirect('login.php');
-		}else
-		{
-				$username = $row['username'];
-				redirect('index.php?username='.$username);
+		}
+
+		else
+		{		$_SESSION['user_id'] = $row['user_id'];
+				$_SESSION['logged'] = true;
+				$_SESSION['username'] = $row['username'];
+				redirect('index.php');
 		}
 
 
@@ -200,7 +204,7 @@
 
 
 
-function nowBook($dbconn,$book_id){
+function Books($dbconn,$book_id){
 				 $stmt = $dbconn->prepare("SELECT * FROM book WHERE book_id = :id ");
 				 $stmt->bindParam(":id", $book_id);
 				 $stmt->execute();
@@ -212,8 +216,8 @@ function nowBook($dbconn,$book_id){
 	 		}
 
 
-function newCat($dbconn,$id){
-				 $stmt = $dbconn->prepare("SELECT * FROM category WHERE cat_id = :id ");
+function Users($dbconn,$id){
+				 $stmt = $dbconn->prepare("SELECT * FROM users WHERE user_id = :id ");
 				 $stmt->bindParam(":id", $id);
 				 $stmt->execute();
 				
@@ -253,3 +257,40 @@ function newCat($dbconn,$id){
 
 
 	}
+
+
+function preview($dbconn,$id){
+        $f = "trending";
+        $stmt = $dbconn->prepare("SELECT * FROM preview WHERE book_id = :f ");
+        $stmt->bindParam(":f", $id);
+        $stmt->execute();
+        $result = "";
+        
+
+      while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+      	$preview = $row['r'];
+
+
+
+
+      $result .=	"<li class=\"review\"><div class=\"avatar-def user-image\"><h4 class=\"user-init\">jm</h4></div>
+          <div class=\"info\">
+            <h4 class=\"username\">Jon Williams</h4>
+            <p class=\"comment\">$preview
+            </p>
+          </div>
+        </li>";       
+
+
+        } 
+
+
+        return $result;
+
+
+	}
+
+
+
+

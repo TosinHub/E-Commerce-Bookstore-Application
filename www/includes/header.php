@@ -19,18 +19,22 @@
 
 
         <?php
+        session_start();
 
-if(!isset($_GET['username'])){
+if(isset($_SESSION['logged']) == true && $_SESSION['logged'] ){
 
-?>
-        <li class="top-nav-listItem login"><a href="login.php">Login</a></li>
+      echo "<li class=\"top-nav-listItem login\" >Welcome  " .$_SESSION['username']. "</li>";
+      echo "<li class=\"top-nav-listItem login\" >" .$_SESSION['user_id']. "</li>";
+      echo "<li class='top-nav-listItem login'><a href='logout.php'>Logout</a></li>";
+
+ } else{
+                  ?>
+
+                   <li class="top-nav-listItem login"><a href="login.php">Login</a></li>
         <li class="top-nav-listItem register"><a href="registration.php">Register</a></li>
 
-        <?php } else{
-
-
-        echo "<li class='top-nav-listItem Home'> Welcome ". $_GET['username']. "</li>";
-        	}?>
+     
+        <?php 	}?>
 
 
         <li class="top-nav-listItem cart">

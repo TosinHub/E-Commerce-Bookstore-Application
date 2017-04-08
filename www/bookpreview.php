@@ -10,26 +10,15 @@ $page_title =  "Book Preview";
    // echo $_GET['book_id'];
   
 
-  $item = nowBook($conn,$_GET['book_id']);
+  $item = Books($conn,$_GET['book_id']);
+
    ?>
 
 
 
   <div class="main">
     <p class="global-error">You have not chosen any amount!</p>
-<!--    <div class="book-display">
-      <div class="display-book" style="  background: url('<?php // echo "admin/".$item['image_path']; ?>');background-size: cover;background-position: center; background-repeat: no-repeat;"></div>
-      <div class="info">
-        <h2 class="book-title"><?php //echo $item['title']; ?> </h2>
-        <h3 class="book-author"><?php //echo $item['author']; ?></h3>
-        <h3 class="book-price"><?php // echo $item['price']; ?></h3>
-        <form>
-          <label for="book-amout">Quantity</label>
-          <input type="number" class="book-amount text-field">
-          <input class="def-button add-to-cart" type="submit" name="" value="Add to cart">
-        </form>
-      </div>
-    </div> -->
+
  <div class="book-display">
       <div class="display-book" style="background: url('<?php  echo "admin/".$item['image_path']; ?>');background-size: cover;background-position: center; background-repeat: no-repeat;"></div>
       <div class="info">
@@ -44,56 +33,69 @@ $page_title =  "Book Preview";
       </div>
     </div>
 
+
+
+
     <div class="book-reviews">
       <h3 class="header">Reviews</h3>
       <ul class="review-list">
-        <li class="review">
-          <div class="avatar-def user-image">
-            <h4 class="user-init">jm</h4>
-          </div>
-          <div class="info">
-            <h4 class="username">Jon Williams</h4>
-            <p class="comment">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-        </li>
-        <li class="review">
-          <div class="avatar-def user-image">
-            <h4 class="user-init">AE</h4>
-          </div>
-          <div class="info">
-            <h4 class="username">Abby Essien</h4>
-            <p class="comment">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-        </li>
-        <li class="review">
-          <div class="avatar-def user-image">
-            <h4 class="user-init">SB</h4>
-          </div>
-          <div class="info">
-            <h4 class="username">Sandra Bullock</h4>
-            <p class="comment">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-        </li>
+        <?php   $view = preview($conn,$_GET['book_id']);
+
+              echo $view;
+         ?>
+       
       </ul>
+
+
       <div class="add-comment">
-        <h3 class="header">Add your comment</h3>
-        <form class="comment">
-          <textarea class="text-field" placeholder="write something"></textarea>
-          <button class="def-button post-comment">Upload comment</button>
-        </form>
+ 
+
+          <?php 
+
+ 
+
+if(array_key_exists('add', $_POST)){
+    $clean = array_map('trim', $_POST);
+    $date = date("F j,Y, g:i a");
+
+$stmt = $conn->prepare("INSERT INTO preview(book_id,user_id,r,date) VALUES (:c,:u,:r,:d)");
+
+      //bind params
+      $stmt->bindParam(":c", $clean['book_id']);
+      $stmt->bindParam(":u", $clean['user_id']);
+      $stmt->bindParam(":r", $clean['preview']);
+       $stmt->bindParam(":d", $date);
+      $stmt->execute();
+      redirect('bookpreview.php?book_id='.$clean['book_id']);
+      
+    }
+
+
+
+
+
+    ?>
+
+
+    <h3 class="header">Add your Comment</h3>
+
+
+    <form  class="comment"  method="post" action="bookpreview.php" style="background-color: #00a6fb">
+      <input type="hidden" name="book_id"  value="<?php echo $_GET['book_id'] ?>"/>
+      <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>" />
+      <textarea class="text-field" name="preview" placeholder="Write Something"></textarea>
+      <input class="def-button post-comment" type="submit" name="add" value="Upload Comment">
+
+    </form>
+
+
+
+
+
+
+
+
+
       </div>
     </div>
   </div>
@@ -102,3 +104,4 @@ $page_title =  "Book Preview";
   </div>
 </body>
 </html>
+

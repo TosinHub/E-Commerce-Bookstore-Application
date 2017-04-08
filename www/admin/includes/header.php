@@ -11,7 +11,7 @@
 
 <?php
 
-if(isset($_SESSION['active']) && $_SESSION['active']){
+//if(isset($_SESSION['active']) && $_SESSION['active']){
 
 ?>
 			</h1>
@@ -29,13 +29,7 @@ if(isset($_SESSION['active']) && $_SESSION['active']){
 		
 
 <?php
-}
-else{
-			//$message = "Login first";
-	//header("Location: login.php?message=$message");
-
-
-}
+//}
 ?>
 
 </div>

@@ -40,6 +40,31 @@ $page_title = "Login";
       $clean = array_map('trim', $_POST);
 
 
+
+      $stmt = $conn->prepare("SELECT * FROM  users WHERE email = :e  ");
+
+      //bind params
+
+      $stmt->bindParam(":e", $clean['email']);
+      $stmt->execute();
+      $count = $stmt->rowCount();     
+      
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      if($count !== 1 OR !password_verify($input['password'], $row['hash'])) {
+      $_SESSION['logged'] = false;
+      redirect('login.php');
+    }
+
+    else
+    {   
+        $_SESSION['logged'] = true;
+        $_SESSION['user_id'] = $row['user_id'];
+        $_SESSION['username'] = $row['username'];
+        redirect('index.php');
+    }
+
+
        doUserLogin($conn, $clean);
       }
       

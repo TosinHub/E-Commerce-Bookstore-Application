@@ -383,6 +383,7 @@
 .review .comment {
   font-size: 14px;
   color: #555555;
+  background-color: #00a6fb
 }
 .add-comment .comment {
   background-color: #eee;
@@ -396,7 +397,7 @@
 }
 .add-comment .post-comment {
   display: block;
-  background-color: #00a6fb;
+  background-color: #eee;
   margin-top: 24px;
 }
 .global-error {

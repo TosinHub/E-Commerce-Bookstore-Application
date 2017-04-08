@@ -1,14 +1,7 @@
  <?php 
-session_start();
+
 
 $page_title = "Home";
-
-if(isset($_GET['username'])){
-$username = $_GET['username'];
-$_SESSION['username'] = $username;
-}
-
-
 
 
 
