@@ -441,3 +441,15 @@ function newCat($dbconn,$id){
 
 
 		}
+
+
+		function rowCount($dbconn,$place){
+
+		$stmt = $dbconn->prepare("SELECT count(*) FROM $place ");
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_NUM);
+        $rowCount = $row[0];
+         return $rowCount;
+
+
+}
