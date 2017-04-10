@@ -3,6 +3,8 @@
 
 <?php
 
+session_start();
+
 $page_title = "Register";
 
 

@@ -16,34 +16,47 @@ $_SESSION['active'] = true;
 
 	<div class="wrapper">
 		<div id="stream">
+		<h1>Admin Dashboard</h1></br></br>
+			<strong>
+					
+						WEBSITE STATISTICS
+						
+						
+				</strong>
 			<table id="tab">
+		
 				<thead>
 					<tr>
-						<th>post title</th>
-						<th>post author</th>
-						<th>date created</th>
-						<th>edit</th>
-						<th>delete</th>
+						<th></th>
+						<th><strong>Number</strong></th>
+						
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>the knowledge gap</td>
-						<td>maja</td>
-						<td>January, 10</td>
-						<td><a href="#">edit</a></td>
-						<td><a href="#">delete</a></td>
+						<td><strong>Total Number of Categorie</strong></td>
+						<td><strong><?php echo rowCount($conn,'category'); ?></strong></td>
+						
+					</tr>
+					<tr>
+						<td><strong>Total Number of Producs</strong></td>
+						<td><strong><?php echo rowCount($conn,'book'); ?></strong></td>
+						
+					</tr>
+					<tr>
+						<td><strong>Total Number of Registers Users</strong></td>
+						<td><strong><?php echo rowCount($conn,'users'); ?></strong></td>
+						
+					</tr>
+					<tr>
+						<td>Total Number of Orders</td>
+						<td></td>
+						
 					</tr>
           		</tbody>
 			</table>
 		</div>
 
-		<div class="paginated">
-			<a href="#">1</a>
-			<a href="#">2</a>
-			<span>3</span>
-			<a href="#">2</a>
-		</div>
 	</div>
 
 	<section class="foot">
