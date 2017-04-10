@@ -453,3 +453,11 @@ function newCat($dbconn,$id){
 
 
 }
+function rowCount1($dbconn){
+
+		$stmt = $dbconn->prepare("SELECT count(*) FROM users WHERE status = 'online' ");
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_NUM);
+        $rowCount = $row[0];
+         return $rowCount;
+     }

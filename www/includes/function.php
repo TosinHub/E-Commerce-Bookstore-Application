@@ -56,7 +56,13 @@
 		}
 
 		else
-		{		$_SESSION['user_id'] = $row['user_id'];
+		{	
+				$stmt = $dbconn->prepare("UPDATE users SET status = 'online' WHERE email = :e ");         
+
+                $stmt->bindParam(":e", $input['email']);
+	 			$stmt->execute();
+
+				$_SESSION['user_id'] = $row['user_id'];
 				$_SESSION['logged'] = true;
 				$_SESSION['username'] = $row['username'];
 				redirect('index.php');

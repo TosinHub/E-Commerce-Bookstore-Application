@@ -41,7 +41,7 @@ $page_title = "Login";
 
 
 
-      $stmt = $conn->prepare("SELECT * FROM  users WHERE email = :e  ");
+     /* $stmt = $conn->prepare("SELECT * FROM  users WHERE email = :e  ");
 
       //bind params
 
@@ -61,8 +61,9 @@ $page_title = "Login";
         $_SESSION['logged'] = true;
         $_SESSION['user_id'] = $row['user_id'];
         $_SESSION['username'] = $row['username'];
+
         redirect('index.php');
-    }
+    } */
 
 
        doUserLogin($conn, $clean);
