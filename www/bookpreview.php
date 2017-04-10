@@ -14,7 +14,9 @@ $page_title =  "Book Preview";
 
 
 
-if(array_key_exists('add', $_POST)){
+if(array_key_exists('add', $_POST) AND !empty($_POST['preview'])){
+      
+
     $clean = array_map('trim', $_POST);
     $date = date("F j,Y, g:i a");
 
@@ -27,8 +29,15 @@ $stmt = $conn->prepare("INSERT INTO preview(book_id,user_id,r,date) VALUES (:c,:
        $stmt->bindParam(":d", $date);
       $stmt->execute();
       redirect('bookpreview.php?book_id='.$clean['book_id']);
-      
-    }
+  }
+
+  elseif(empty($_POST['preview'])){
+
+    $error = "Please type comment before uploading";
+
+
+
+  }
 
    ?>
 
@@ -78,9 +87,10 @@ $stmt = $conn->prepare("INSERT INTO preview(book_id,user_id,r,date) VALUES (:c,:
     <h3 class="header">Add your Comment</h3>
 
 
-    <form  class="comment"  method="post" action="bookpreview.php" style="background-color: #00a6fb">
+    <form  class="comment"  method="post" action='<?php echo "bookpreview.php?book_id=".$_GET['book_id'] ; ?>' style="background-color: #00a6fb">
       <input type="hidden" name="book_id"  value="<?php echo $_GET['book_id'] ?>"/>
       <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>" />
+      <?php if(isset($error)){echo '<strong style="color:#F00">'.$error. '</strong>' ; } ?>
       <textarea class="text-field" name="preview" placeholder="Write Something"></textarea>
       <input class="def-button post-comment" type="submit" name="add" value="Upload Comment" style="color:#F00  ">
 

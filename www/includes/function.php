@@ -228,10 +228,10 @@ function Users($dbconn,$id){
 	 		}
 
 
-	function trending($dbconn){
-        $f = "trending";
+	function trending($dbconn,$flag){
+      
         $stmt = $dbconn->prepare("SELECT * FROM book WHERE flag = :f ");
-        $stmt->bindParam(":f", $f);
+        $stmt->bindParam(":f", $flag);
         $stmt->execute();
         $result = "";
         
@@ -241,9 +241,6 @@ function Users($dbconn,$id){
       	$price = $row['price'];
       	$image_path = $row['image_path'];
 
-
-
-            
             
           $result .= "<li class='book'><a href='bookpreview.php?book_id=$book_id'>";
          $result .= "<div class='book-cover' style=' background: url(\"admin/$image_path\"); background-size: cover; background-position: center; background-repeat: no-repeat;'></div></a> <div class='book-price'><p>$price</p></div>
@@ -310,3 +307,12 @@ function rowCountPreview($dbconn,$id){
 
 
 
+function bestSelling($dbconn){
+				 $stmt = $dbconn->prepare("SELECT * FROM book WHERE flag = 'best selling' ORDER BY book_id DESC LIMIT 0,1  ");
+				 $stmt->execute();
+				
+
+	 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+	 			return $row;
+
+	 		}

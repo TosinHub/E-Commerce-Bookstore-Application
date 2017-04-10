@@ -10,6 +10,8 @@ $page_title = "Home";
    include 'includes/function.php';
 
     include 'includes/header.php';
+
+     $item = bestSelling($conn);
    ?>
   <!-- main content starts here -->
 
@@ -17,11 +19,12 @@ $page_title = "Home";
 
   <div class="main">
     <div class="book-display">
-      <div class="display-book"></div>
+    <h3 class="header">Latest Best Selling Book</h3>
+      <div class="display-book" style="background: url('<?php  echo "admin/".$item['image_path']; ?>');background-size: cover;background-position: center; background-repeat: no-repeat;"></div>
       <div class="info">
-        <h2 class="book-title">Eloquent Javascript</h2>
-        <h3 class="book-author">by Marijn Haverbeke</h3>
-        <h3 class="book-price">$200</h3>
+        <h2 class="book-title"><?php echo $item['title']; ?> </h2>
+        <h3 class="book-author"><?php echo $item['author']; ?></h3>
+        <h3 class="book-price"><?php echo $item['price']; ?></h3>
 
         <form>
           <label for="book-amout">Amount</label>
@@ -36,25 +39,10 @@ $page_title = "Home";
         
 
 <?php 
-        $view = trending($conn);
+        $view = trending($conn,'trending');
         echo $view;
 
-     /*   $f = "trending";
-        $stmt = $conn->prepare("SELECT * FROM book WHERE flag = :f ");
-        $stmt->bindParam(":f", $f);
-        $stmt->execute();
-        
-
-      while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-
-?>
-            
-            
-          <li class="book"><a href="<?php echo "bookpreview.php?book_id=".$row['book_id']; ?>">
-          <div class="book-cover" style=" background: url('<?php  echo "admin/".$row['image_path']; ?>'); background-size: cover; background-position: center; background-repeat: no-repeat;"></div></a>
-          <div class="book-price"><p><?php echo $row['price'] ?></p></div>
-        </li>        
-        <?php } */ ?>
+  ?>
 
         </ul>
         
@@ -63,22 +51,11 @@ $page_title = "Home";
       <ul class="book-list">
         <div class="scroll-back"></div>
         <div class="scroll-front"></div>
-        <li class="book">
-          <a href="#"><div class="book-cover"></div></a>
-          <div class="book-price"><p>$250</p></div>
-        </li>
-        <li class="book">
-          <a href="#"><div class="book-cover"></div></a>
-          <div class="book-price"><p>$50</p></div>
-        </li>
-        <li class="book">
-          <a href="#"><div class="book-cover"></div></a>
-          <div class="book-price"><p>$125</p></div>
-        </li>
-        <li class="book">
-          <a href="#"><div class="book-cover"></div></a>
-          <div class="book-price"><p>$90</p></div>
-        </li>
+       <?php 
+        $bs = trending($conn,'rv');
+        echo $bs;
+
+  ?>
       </ul>
     </div>
     
