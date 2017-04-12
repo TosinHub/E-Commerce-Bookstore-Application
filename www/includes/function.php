@@ -108,13 +108,12 @@
 
 	function displayError($show,$input){
 
-			if(isset($show[$input])){
-
+			
 
 				echo '<span class="err">'.$show[$input]. '</span>' ;
 				return true;
         }
-	}
+	
 
 
 			
@@ -234,7 +233,7 @@ function Users($dbconn,$id){
 	 		}
 
 
-	function trending($dbconn,$flag){
+	function call($dbconn,$flag){
       
         $stmt = $dbconn->prepare("SELECT * FROM book WHERE flag = :f ");
         $stmt->bindParam(":f", $flag);
@@ -322,3 +321,10 @@ function bestSelling($dbconn){
 	 			return $row;
 
 	 		}
+
+
+	function getProduct($dbconn,$id){
+
+
+		
+	}

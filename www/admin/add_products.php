@@ -217,7 +217,7 @@ $page_title = "Add Products";
 			<?php if(isset($errors['flag'])){	echo '<span class="err">'.$errors['flag']. '</span>' ; } ?>
 			<label>Flagging Option:</label>
 			<select name="flag"><option value="">Select</option>
-								<option value="none">No Flagging</option>
+								<option value="rv">No Flagging</option>
 								<option value="trending">Trending</option>
 								<option value="best selling">Best Selling</option>
 								</select>

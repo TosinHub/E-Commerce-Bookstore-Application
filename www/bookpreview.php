@@ -90,6 +90,7 @@ $stmt = $conn->prepare("INSERT INTO preview(book_id,user_id,r,date) VALUES (:c,:
     <form  class="comment"  method="post" action='<?php echo "bookpreview.php?book_id=".$_GET['book_id'] ; ?>' style="background-color: #00a6fb">
       <input type="hidden" name="book_id"  value="<?php echo $_GET['book_id'] ?>"/>
       <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>" />
+      
       <?php if(isset($error)){echo '<strong style="color:#F00">'.$error. '</strong>' ; } ?>
       <textarea class="text-field" name="preview" placeholder="Write Something"></textarea>
       <input class="def-button post-comment" type="submit" name="add" value="Upload Comment" style="color:#F00  ">

@@ -43,7 +43,7 @@
 }
 .side-bar {
   position: fixed;
-  width: 234px;
+  width: 200px;
   height: 100vh;
   z-index: 9999;
   padding-top: 92px;

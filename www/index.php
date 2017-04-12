@@ -4,12 +4,12 @@
 $page_title = "Home";
 
 
-
+include 'includes/header.php';
 
   include 'includes/db.php';
    include 'includes/function.php';
 
-    include 'includes/header.php';
+    
 
      $item = bestSelling($conn);
    ?>
@@ -39,7 +39,7 @@ $page_title = "Home";
         
 
 <?php 
-        $view = trending($conn,'trending');
+        $view = call($conn,'trending');
         echo $view;
 
   ?>
@@ -52,7 +52,7 @@ $page_title = "Home";
         <div class="scroll-back"></div>
         <div class="scroll-front"></div>
        <?php 
-        $bs = trending($conn,'rv');
+        $bs = call($conn,'best selling');
         echo $bs;
 
   ?>
