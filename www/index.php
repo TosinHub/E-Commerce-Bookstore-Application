@@ -6,8 +6,7 @@ $page_title = "Home";
 
 include 'includes/header.php';
 
-  include 'includes/db.php';
-   include 'includes/function.php';
+ 
 
     
 
@@ -24,7 +23,7 @@ include 'includes/header.php';
       <div class="info">
         <h2 class="book-title"><?php echo $item['title']; ?> </h2>
         <h3 class="book-author"><?php echo $item['author']; ?></h3>
-        <h3 class="book-price"><?php echo $item['price']; ?></h3>
+        <h3 class="book-price">$<?php echo $item['price']; ?></h3>
 
         <form>
           <label for="book-amout">Amount</label>

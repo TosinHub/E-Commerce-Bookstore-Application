@@ -168,38 +168,7 @@
 
 
 	 		
-	 
-	function view($dbconn){
-				$stmt = $dbconn->prepare("SELECT * FROM book ");
-				 $stmt->execute();
-				 $result = "";
 
-	 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-	 			$book_id = $row['book_id'];
-	 			$title = $row['title'];
-	 			$author = $row['author'];
-	 			$cat_id = $row['cat_id'];
-	 			$price = $row['price'];
-	 			$year = $row['year'];
-	 			$isbn = $row['isbn'];
-	 			$image_path = $row['image_path'];
-	 			
-	 			 $result .= "<tr>";
-	 			 $result .= "<td>" .$title.  "</td>";
-	 			 $result .= "<td>" .$author.  "</td>";
-	 			 $result .= "<td>" .$price.  "</td>";
-	 			 $result .= "<td>" .$year.  "</td>";
-	 			 $result .= "<td>" .$isbn.  "</td>";
-	 			 $result .= "<td><img src='$image_path'  height='100px' width='100px' /></td>";
-	 			 $result .=   "<td><a href='edit_products.php?book_id=$book_id'>edit</a></td>";
-					$result .=	 "<td><a href='product.php?delete=$book_id'>delete</a></td> ";
-	 			     $result .= "</tr>";
-
-
-	 		}
-	  return $result;
-
-	}	
 	 	
 
 
@@ -248,9 +217,8 @@ function Users($dbconn,$id){
 
             
           $result .= "<li class='book'><a href='bookpreview.php?book_id=$book_id'>";
-         $result .= "<div class='book-cover' style=' background: url(\"admin/$image_path\"); background-size: cover; background-position: center; background-repeat: no-repeat;'></div></a> <div class='book-price'><p>$price</p></div>
+         $result .= "<div class='book-cover' style=' background: url(\"admin/$image_path\"); background-size: cover; background-position: center; background-repeat: no-repeat;'></div></a> <div class='book-price'><p>$".$price."</p></div>
         </li>";        
-
 
         } 
 
@@ -328,3 +296,121 @@ function bestSelling($dbconn){
 
 		
 	}
+
+
+	function addComment($dbconn,$clean){
+				$date = date("F j,Y, g:i a");
+
+				
+				$stmt = $dbconn->prepare("INSERT INTO preview(book_id,user_id,r,date) VALUES (:c,:u,:r,:d)");
+
+	      //bind params
+			    $stmt->bindParam(":c", $clean['book_id']);
+			    $stmt->bindParam(":u", $clean['user_id']);
+			    $stmt->bindParam(":r", $clean['preview']);
+			    $stmt->bindParam(":d", $date);
+
+
+			   if($stmt->execute()){
+			      
+			    $msg = "Comment successfully added";
+			     redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$clean['book_id']);
+			  }
+
+			  else
+
+			     {
+			     	$msg = "Comment not added";
+			     	redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$clean['book_id']);
+			     }
+
+
+
+		}
+
+	function addCart($dbconn,$clean){
+
+				
+				$stmt = $dbconn->prepare("INSERT INTO cart(book_id,user_id,price,quantity,image_path) VALUES (:c,:u,:r,:q,:i)");
+
+	      //bind params
+			    $stmt->bindParam(":c", $clean['book_id']);
+			    $stmt->bindParam(":u", $clean['user_id']);
+			    $stmt->bindParam(":r", $clean['price']);
+			    $stmt->bindParam(":q", $clean['quantity']);
+			    $stmt->bindParam(":i", $clean['image_path']);
+			    
+
+
+			   if($stmt->execute()){
+			      
+			    $msg = "Cart successfully added";
+			     redirect('index.php');
+			  }
+
+			  else
+
+			     {
+			     	$msg = "Comment not added";
+			     	redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$clean['book_id']);
+			     }
+
+
+
+		}
+
+
+
+
+		function getCat($dbconn,$id){
+        
+        $stmt = $dbconn->prepare("SELECT * FROM cart WHERE user_id = :f ");
+        $stmt->bindParam(":f", $id);
+        $stmt->execute();
+
+
+        $result = "";
+        
+
+      while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      	$item = $row['image_path'];
+
+      	$quantity = $row['quantity'];
+      	$price = $row['price'];
+      	$total = $quantity * $price;
+      
+      $result .= "<tr><td><div class=\"book-cover\" style=\"  background: url('admin/$item');
+ 						 background-size: cover;background-position: center; background-repeat: no-repeat;\"></div></td>
+          			<td><p class=\"book-price\">$ $price</p></td>
+          			<td><p class=\"quantity\">$quantity</p></td>
+          			<td><p class=\"total\">$ $total </p></td>
+          			<td>
+          			<form class=\"update\">
+              		<input type=\"number\" class=\"text-field qty\">
+              		<input type=\"submit\" class=\"def-button change-qty\" value=\"Change Qty\">
+           			</form>
+          			</td>
+          			<td>
+            		<a href class=\"def-button remove-item\">Remove Item</a>
+          			</td></tr>";
+         
+
+
+        } 
+
+
+        return $result;
+
+
+	}
+
+	function countCart($dbconn,$id){
+
+		$stmt = $dbconn->prepare("SELECT count(*) FROM cart WHERE user_id = :f ");
+		$stmt->bindParam(":f", $id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_NUM);
+        $rowCount = $row[0];
+         return $rowCount;
+
+     }

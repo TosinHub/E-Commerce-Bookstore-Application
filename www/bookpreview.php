@@ -4,9 +4,7 @@ $page_title =  "Book Preview";
  include 'includes/header.php';
 
 
-  include 'includes/db.php';
-
-   include 'includes/function.php';
+ 
    // echo $_GET['book_id'];
   
 
@@ -14,30 +12,37 @@ $page_title =  "Book Preview";
 
 
 
-if(array_key_exists('add', $_POST) AND !empty($_POST['preview'])){
+if(array_key_exists('add', $_POST)){
+
+    if(empty($_POST['preview'])){
+          $msg = "Please type comment";
+            redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$_POST['book_id']);
+
+        }else{
       
 
     $clean = array_map('trim', $_POST);
-    $date = date("F j,Y, g:i a");
-
-$stmt = $conn->prepare("INSERT INTO preview(book_id,user_id,r,date) VALUES (:c,:u,:r,:d)");
-
-      //bind params
-      $stmt->bindParam(":c", $clean['book_id']);
-      $stmt->bindParam(":u", $clean['user_id']);
-      $stmt->bindParam(":r", $clean['preview']);
-       $stmt->bindParam(":d", $date);
-      $stmt->execute();
-      redirect('bookpreview.php?book_id='.$clean['book_id']);
+    addComment($conn,$clean);
   }
+}
 
-  elseif(empty($_POST['preview'])){
+if(array_key_exists('cart', $_POST)){
 
-    $error = "Please type comment before uploading";
+    if(empty($_POST['quantity'])){
+          $msg = "Please enter quantity";
+            redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$_POST['book_id']);
 
+        }else{
+      
 
-
+    $clean = array_map('trim', $_POST);
+    addCart($conn,$clean);
   }
+}
+
+
+
+
 
    ?>
 
@@ -51,11 +56,26 @@ $stmt = $conn->prepare("INSERT INTO preview(book_id,user_id,r,date) VALUES (:c,:
       <div class="info">
         <h2 class="book-title"><?php echo $item['title']; ?> </h2>
         <h3 class="book-author"><?php echo $item['author']; ?></h3>
-        <h3 class="book-price"><?php echo $item['price']; ?></h3>
-        <form>
-          <label for="book-amout">Quantity</label>
-          <input type="number" class="book-amount text-field">
-          <input class="def-button add-to-cart" type="submit" name="" value="Add to cart">
+        <h3 class="book-price">$<?php echo $item['price']; ?></h3>
+
+
+
+        <form method="post" action='<?php echo "bookpreview.php?book_id=".$_GET['book_id'] ; ?>' >
+
+          
+
+           <?php if(isset($_GET['pmessage'])){echo '<strong style="color:#F00">'.$_GET['pmessage']. '</strong>' ; } ?>
+           <label for="book-amout">Quantity</label> 
+          <input type="number" class="book-amount text-field" name="quantity">
+
+          <input type="hidden" name="book_id"  value="<?php echo $_GET['book_id'] ?>"/>
+          <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>" />
+
+           <input type="hidden" name="price"  value="<?php echo $item['price'] ?>"/>
+
+      <input type="hidden" name="image_path" value="<?php echo "$item['image_path'] ?>" />
+
+          <input class="def-button add-to-cart" type="submit" name="cart" value="Add to cart">
         </form>
       </div>
     </div>
@@ -91,7 +111,7 @@ $stmt = $conn->prepare("INSERT INTO preview(book_id,user_id,r,date) VALUES (:c,:
       <input type="hidden" name="book_id"  value="<?php echo $_GET['book_id'] ?>"/>
       <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>" />
       
-      <?php if(isset($error)){echo '<strong style="color:#F00">'.$error. '</strong>' ; } ?>
+      <?php if(isset($_GET['pmessage'])){echo '<strong style="color:#F00">'.$_GET['pmessage']. '</strong>' ; } ?>
       <textarea class="text-field" name="preview" placeholder="Write Something"></textarea>
       <input class="def-button post-comment" type="submit" name="add" value="Upload Comment" style="color:#F00  ">
 

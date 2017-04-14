@@ -18,6 +18,8 @@
 
 
         <?php
+         include 'includes/db.php';
+        include 'includes/function.php';
         session_start();
 
 if(isset($_SESSION['logged']) == true && $_SESSION['logged'] ){
@@ -37,9 +39,14 @@ if(isset($_SESSION['logged']) == true && $_SESSION['logged'] ){
 
         <li class="top-nav-listItem cart">
           <div class="cart-item-indicator">
-            <p>12</p>
+          <?php 
+                  $view = countCart($conn,$_SESSION['user_id']);
+                echo "<p>$view</p>";
+
+           ?>
+            
           </div>
-          <a href="cart.html">Cart</a>
+          <a href="cart.php">Cart</a>
         </li>
       </ul>
       <form class="search-brainfood">

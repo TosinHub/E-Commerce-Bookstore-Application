@@ -327,10 +327,11 @@ table#tab tr td:first-of-type {
 
 .paginated {
 	margin-top: 20px;
+	color: blue;
 }
 
 .paginated a {
 	display: inline-block;
-	color: #ccc;
+	color: blue;
 	text-decoration: underline;
 }

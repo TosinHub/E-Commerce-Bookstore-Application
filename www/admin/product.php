@@ -6,30 +6,18 @@ session_start();
 
 $page_title = "Products";
 
+ include 'includes/header.php';
+
  include 'includes/db.php';
 
  include 'includes/function.php';
  authenticate ();
 
 
- include 'includes/header.php';
 
 
 
-  if(array_key_exists('add', $_POST)){
-	$clean = array_map('trim', $_POST);
-  	addCategory($conn,$clean);
 
-
-  }
-
-
-   if(array_key_exists('edit', $_POST)){
-	$clean = array_map('trim', $_POST);
-  	editCategory($conn,$clean);
-
-
-  }
 
 
 ?>
@@ -81,7 +69,14 @@ if(isset($_GET['success']))
 				</thead>
 				<tbody>
 					
-						<?php  $view = viewProducts($conn); echo $view; ?>
+
+						<?php 
+        $query = "SELECT * FROM book";       
+		$records_per_page=5;
+		$newquery = $paginate->paging($query,$records_per_page);
+		$paginate->dataview($newquery);
+				
+		?>
 						
 						
           		</tbody>
@@ -89,10 +84,7 @@ if(isset($_GET['success']))
 		</div>
 		
 		<div class="paginated">
-			<a href="#">1</a>
-			<a href="#">2</a>
-			<span>3</span>
-			<a href="#">2</a>
+		<?php 	$paginate->paginglink($query,$records_per_page); ?>
 		</div>
 	</div>
 

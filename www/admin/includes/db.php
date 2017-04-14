@@ -23,4 +23,8 @@ catch(PDOException $e){
 }
 
 
+include_once 'class.paging.php';
+$paginate = new paginate($conn);
+
+
 

@@ -6,8 +6,6 @@ $page_title = "Registration";
 
 
 
-  include 'includes/db.php';
-   include 'includes/function.php';
 
     include 'includes/header.php';
   

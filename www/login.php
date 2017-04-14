@@ -3,9 +3,7 @@
 
 $page_title = "Login";
 
- include 'includes/db.php';
 
- include 'includes/function.php';
 
 
  include 'includes/header.php';
