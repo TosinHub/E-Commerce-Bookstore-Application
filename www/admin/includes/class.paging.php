@@ -62,18 +62,18 @@ class paginate
 		
 	}
 	
-	public function paging($query,$records_per_page)
+	public function paging($query,$products_per_page)
 	{
 		$starting_position=0;
 		if(isset($_GET["page_no"]))
 		{
-			$starting_position=($_GET["page_no"]-1)*$records_per_page;
+			$starting_position=($_GET["page_no"]-1)*$products_per_page;
 		}
-		$query2=$query." limit $starting_position,$records_per_page";
+		$query2=$query." limit $starting_position,$products_per_page";
 		return $query2;
 	}
 	
-	public function paginglink($query,$records_per_page)
+	public function paginglink($query,$products_per_page)
 	{
 		
 		$self = $_SERVER['PHP_SELF'];
@@ -81,13 +81,13 @@ class paginate
 		$stmt = $this->db->prepare($query);
 		$stmt->execute();
 		
-		$total_no_of_records = $stmt->rowCount();
+		$total_no_of_products = $stmt->rowCount();
 		
-		if($total_no_of_records > 0)
+		if($total_no_of_products > 0)
 
 		{
 			
-			$total_no_of_pages=ceil($total_no_of_records/$records_per_page);
+			$total_no_of_pages=ceil($total_no_of_products/$products_per_page);
 			$current_page=1;
 			if(isset($_GET["page_no"]))
 			{

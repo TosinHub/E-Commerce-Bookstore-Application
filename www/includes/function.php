@@ -328,89 +328,9 @@ function bestSelling($dbconn){
 
 		}
 
-	function addCart($dbconn,$clean){
-
-				
-				$stmt = $dbconn->prepare("INSERT INTO cart(book_id,user_id,price,quantity,image_path) VALUES (:c,:u,:r,:q,:i)");
-
-	      //bind params
-			    $stmt->bindParam(":c", $clean['book_id']);
-			    $stmt->bindParam(":u", $clean['user_id']);
-			    $stmt->bindParam(":r", $clean['price']);
-			    $stmt->bindParam(":q", $clean['quantity']);
-			    $stmt->bindParam(":i", $clean['image_path']);
-			    
-
-
-			   if($stmt->execute()){
-			      
-			    $msg = "Cart successfully added";
-			     redirect('index.php');
-			  }
-
-			  else
-
-			     {
-			     	$msg = "Comment not added";
-			     	redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$clean['book_id']);
-			     }
-
-
-
-		}
 
 
 
 
-		function getCat($dbconn,$id){
-        
-        $stmt = $dbconn->prepare("SELECT * FROM cart WHERE user_id = :f ");
-        $stmt->bindParam(":f", $id);
-        $stmt->execute();
 
-
-        $result = "";
-        
-
-      while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-      	$item = $row['image_path'];
-
-      	$quantity = $row['quantity'];
-      	$price = $row['price'];
-      	$total = $quantity * $price;
-      
-      $result .= "<tr><td><div class=\"book-cover\" style=\"  background: url('admin/$item');
- 						 background-size: cover;background-position: center; background-repeat: no-repeat;\"></div></td>
-          			<td><p class=\"book-price\">$ $price</p></td>
-          			<td><p class=\"quantity\">$quantity</p></td>
-          			<td><p class=\"total\">$ $total </p></td>
-          			<td>
-          			<form class=\"update\">
-              		<input type=\"number\" class=\"text-field qty\">
-              		<input type=\"submit\" class=\"def-button change-qty\" value=\"Change Qty\">
-           			</form>
-          			</td>
-          			<td>
-            		<a href class=\"def-button remove-item\">Remove Item</a>
-          			</td></tr>";
-         
-
-
-        } 
-
-
-        return $result;
-
-
-	}
-
-	function countCart($dbconn,$id){
-
-		$stmt = $dbconn->prepare("SELECT count(*) FROM cart WHERE user_id = :f ");
-		$stmt->bindParam(":f", $id);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_NUM);
-        $rowCount = $row[0];
-         return $rowCount;
-
-     }
+		

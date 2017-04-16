@@ -1,14 +1,16 @@
  <?php 
 
- $page_title = "Home";
 
-    include 'includes/header.php';
+$page_title = "Home";
+
+
+include 'includes/header.php';
+
+ 
 
     
 
-    $book = new BOOK ();
-
-     $item = $book->bestSelling();
+     $item = bestSelling($conn);
    ?>
   <!-- main content starts here -->
 
@@ -36,7 +38,8 @@
         
 
 <?php 
-        echo $book->books("trending")
+        $view = call($conn,'trending');
+        echo $view;
 
   ?>
 
@@ -48,8 +51,9 @@
         <div class="scroll-back"></div>
         <div class="scroll-front"></div>
        <?php 
-        
-     echo $book->books("rv")
+        $bs = call($conn,'best selling');
+        echo $bs;
+
   ?>
       </ul>
     </div>

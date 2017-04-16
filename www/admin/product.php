@@ -72,8 +72,8 @@ if(isset($_GET['success']))
 
 						<?php 
         $query = "SELECT * FROM book";       
-		$records_per_page=5;
-		$newquery = $paginate->paging($query,$records_per_page);
+		$products_per_page=5;
+		$newquery = $paginate->paging($query,$products_per_page);
 		$paginate->dataview($newquery);
 				
 		?>
@@ -84,7 +84,7 @@ if(isset($_GET['success']))
 		</div>
 		
 		<div class="paginated">
-		<?php 	$paginate->paginglink($query,$records_per_page); ?>
+		<?php 	$paginate->paginglink($query,$products_per_page); ?>
 		</div>
 	</div>
 

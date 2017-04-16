@@ -1,10 +1,11 @@
  <?php 
 
 
-$page_title = "Home";
+$page_title =  "Cart";
+      include 'includes/header.php'; 
+       
 
-
-include 'includes/header.php';
+       $book = new BOOK ();
 
 
 
@@ -28,7 +29,7 @@ include 'includes/header.php';
       </thead>
       <tbody>
         
-         <?php $view = getCat($conn, $_SESSION['user_id']); echo $view; ?>
+         <?php echo  $book->getCart($_SESSION['session_id']); ?>
 
         
        

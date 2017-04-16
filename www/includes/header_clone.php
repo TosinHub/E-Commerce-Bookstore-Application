@@ -1,12 +1,3 @@
-  <?php
-
-        session_start();
-        
-
-        require_once("includes/class.book.php");
-        $book = new BOOK ();
-
-        ?>
 
 
 
@@ -30,9 +21,12 @@
 
 
 
-        <?php        
+        <?php
+         include 'includes/db.php';
+        include 'includes/function.php';
+        session_start();
 
-if($book->is_loggedin()!=""){
+if(isset($_SESSION['logged']) == true && $_SESSION['logged'] ){
 
       echo "<li class=\"top-nav-listItem login\" >Welcome  " .$_SESSION['username']. "</li>";
       echo "<li class='top-nav-listItem login'><a href='logout.php'>Logout</a></li>";
@@ -50,12 +44,10 @@ if($book->is_loggedin()!=""){
         <li class="top-nav-listItem cart">
           <div class="cart-item-indicator">
           <?php 
-
-                 $view = $book->countCart($_SESSION['session_id']);
+                  $view = countCart($conn,$_SESSION['user_id']);
                 echo "<p>$view</p>";
 
            ?>
-           
             
           </div>
           <a href="cart.php">Cart</a>
@@ -66,4 +58,44 @@ if($book->is_loggedin()!=""){
       </form>
     </div>
   </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

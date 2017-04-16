@@ -1,44 +1,40 @@
  <?php 
 
 $page_title =  "Book Preview";
- include 'includes/header.php';
-
-
- 
-   // echo $_GET['book_id'];
+      include 'includes/header.php'; 
   
 
-  $item = Books($conn,$_GET['book_id']);
+       $item = $book->bookPreview($_GET['book_id']);
 
 
 
-if(array_key_exists('add', $_POST)){
+        if(array_key_exists('add', $_POST)){
 
-    if(empty($_POST['preview'])){
-          $msg = "Please type comment";
-            redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$_POST['book_id']);
+            if(empty($_POST['preview'])){
+                  $msg = "Please type comment";
+                    redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$_POST['book_id']);
 
-        }else{
-      
+                }else{
+              
 
-    $clean = array_map('trim', $_POST);
-    addComment($conn,$clean);
-  }
-}
+            $clean = array_map('trim', $_POST);
+            $book->addComment($clean);
+          }
+        }
 
-if(array_key_exists('cart', $_POST)){
+        if(array_key_exists('cart', $_POST)){
 
-    if(empty($_POST['quantity'])){
-          $msg = "Please enter quantity";
-            redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$_POST['book_id']);
+            if(empty($_POST['quantity'])){
+                  $msg = "Please enter quantity";
+                    redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$_POST['book_id']);
 
-        }else{
-      
+                }else{
+              
 
-    $clean = array_map('trim', $_POST);
-    addCart($conn,$clean);
-  }
-}
+            $clean = array_map('trim', $_POST);
+           $book->addCart($clean);
+          }
+        }
 
 
 
@@ -64,16 +60,16 @@ if(array_key_exists('cart', $_POST)){
 
           
 
-           <?php if(isset($_GET['pmessage'])){echo '<strong style="color:#F00">'.$_GET['pmessage']. '</strong>' ; } ?>
+           <?php if(isset($_GET['pmessage'])){echo '<strong style="color:#F00">'.$_GET['pmessage']. '</strong>' ; } ?></br>
            <label for="book-amout">Quantity</label> 
           <input type="number" class="book-amount text-field" name="quantity">
 
           <input type="hidden" name="book_id"  value="<?php echo $_GET['book_id'] ?>"/>
-          <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id'] ?>" />
+          <input type="hidden" name="session_id" value="<?php echo $_SESSION['session_id'] ?>" />
 
            <input type="hidden" name="price"  value="<?php echo $item['price'] ?>"/>
 
-      <input type="hidden" name="image_path" value="<?php echo "$item['image_path'] ?>" />
+      <input type="hidden" name="image_path" value="<?php echo $item['image_path'] ?>" />
 
           <input class="def-button add-to-cart" type="submit" name="cart" value="Add to cart">
         </form>
@@ -85,12 +81,11 @@ if(array_key_exists('cart', $_POST)){
 
     <div class="book-reviews">
       <h3 class="header">Reviews</h3>
-     <?php  $rowCount = rowCountPreview($conn,$_GET['book_id']);
+     <?php  $rowCount = $book->rowCountPreview($_GET['book_id']);
               echo "Total number of reviews: " .$rowCount. " comment(s)"; ?>
       <ul class="review-list">
-        <?php   $view = preview($conn,$_GET['book_id']);
-
-              echo $view;
+        <?php  echo $book->preview($_GET['book_id']);
+               
          ?>
        
       </ul>
@@ -100,9 +95,7 @@ if(array_key_exists('cart', $_POST)){
  
 
        
-
-
-<?php if(isset($_SESSION['logged']) == true && $_SESSION['logged'] ){ ?>
+    <?php if($book->is_loggedin()!=""){ ?>
 
     <h3 class="header">Add your Comment</h3>
 
@@ -116,7 +109,10 @@ if(array_key_exists('cart', $_POST)){
       <input class="def-button post-comment" type="submit" name="add" value="Upload Comment" style="color:#F00  ">
 
     </form>
-<?php }else{
+<?php }
+
+else
+{
 echo "<button class=\"def-button\" style=\"background-color:#03C;\" > <a href='login.php' style=\"color:#fff \">Please loggin to comment</a></button>";
 
 }
