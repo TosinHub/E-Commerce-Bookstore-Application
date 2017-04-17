@@ -1,6 +1,8 @@
   <?php
 
         session_start();
+
+        $_SESSION['user_session'] = session_id();
         
 
         require_once("includes/class.book.php");
@@ -51,7 +53,7 @@ if($book->is_loggedin()!=""){
           <div class="cart-item-indicator">
           <?php 
 
-                 $view = $book->countCart($_SESSION['session_id']);
+                 $view = $book->countCart($_SESSION['user_session']);
                 echo "<p>$view</p>";
 
            ?>

@@ -29,7 +29,7 @@ $page_title =  "Cart";
       </thead>
       <tbody>
         
-         <?php echo  $book->getCart($_SESSION['session_id']); ?>
+         <?php echo  $book->getCart($_SESSION['user_session']); ?>
 
         
        

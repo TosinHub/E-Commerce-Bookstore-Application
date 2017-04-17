@@ -94,22 +94,23 @@ class USER
 				}
 			}
 			
-	public function redirect($url)
+		public function redirect($url)
 			{
 				header("Location: $url");
 			}
 			
 			public function doLogout()
 			{
+				unset($_SESSION['session_id']);
 				session_destroy();
-				unset($_SESSION['user_session']);
+				
 				return true;
 			}
 
 
 
 
-	function getUsers($id){
+	public function getUsers($id){
 				 $stmt = $this->conn->prepare("SELECT * FROM users WHERE user_id = :id ");
 				 $stmt->bindParam(":id", $id);
 				 $stmt->execute();
@@ -118,11 +119,17 @@ class USER
 	 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
 	 			return $row;
 
+
 	 		}
 
 
-}
+	
 
+
+
+	}
+
+	
 
 
 

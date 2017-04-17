@@ -493,8 +493,7 @@
   padding-bottom: 36px;
 }
 .cart-table thead {
-  background-color: #777;
-  color: white;
+   color: white;
   font-family: 'OpenSans-Light';
 }
 .cart-table th {
@@ -506,6 +505,7 @@
 }
 .cart-table tr {
   border-bottom: 2px solid white;
+  background-color: #999999;
 }
 .cart-table td {
   padding: 12px;

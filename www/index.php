@@ -3,12 +3,28 @@
  $page_title = "Home";
 
     include 'includes/header.php';
+    
 
     
 
     $book = new BOOK ();
 
      $item = $book->bestSelling();
+
+
+          if(array_key_exists('cart', $_POST)){
+
+            if(empty($_POST['quantity'])){
+                  $msg = "Please enter quantity";
+                    $book->redirect('index.php?pmessage='.$msg.'&book_id='.$_POST['book_id']);
+
+                }else{
+              
+
+            $clean = array_map('trim', $_POST);
+           $book->addCart($clean);
+          }
+        }
    ?>
   <!-- main content starts here -->
 
@@ -22,11 +38,22 @@
         <h2 class="book-title"><?php echo $item['title']; ?> </h2>
         <h3 class="book-author"><?php echo $item['author']; ?></h3>
         <h3 class="book-price">$<?php echo $item['price']; ?></h3>
+        <form method="post" action='index.php' >
 
-        <form>
-          <label for="book-amout">Amount</label>
-          <input type="number" class="book-amount text-field">
-          <input class="def-button add-to-cart" type="submit" name="" value="Add to cart">
+          
+
+           <?php if(isset($_GET['pmessage'])){echo '<strong style="color:#F00">'.$_GET['pmessage']. '</strong>' ; } ?></br>
+           <label for="book-amout">Quantity</label> 
+          <input type="number" class="book-amount text-field" name="quantity">
+
+          <input type="hidden" name="book_id"  value="<?php echo $item['book_id'] ?>"/>
+          <input type="hidden" name="session_id" value="<?php echo $_SESSION['user_session'] ?>" />
+
+           <input type="hidden" name="price"  value="<?php echo $item['price'] ?>"/>
+
+      <input type="hidden" name="image_path" value="<?php echo $item['image_path'] ?>" />
+
+          <input class="def-button add-to-cart" type="submit" name="cart" value="Add to cart">
         </form>
       </div>
     </div>

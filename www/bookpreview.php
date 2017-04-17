@@ -12,7 +12,7 @@ $page_title =  "Book Preview";
 
             if(empty($_POST['preview'])){
                   $msg = "Please type comment";
-                    redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$_POST['book_id']);
+                     $book->redirect('bookpreview.php?pmessage='.$msg.'&book_id='.$_POST['book_id']);
 
                 }else{
               
@@ -65,7 +65,7 @@ $page_title =  "Book Preview";
           <input type="number" class="book-amount text-field" name="quantity">
 
           <input type="hidden" name="book_id"  value="<?php echo $_GET['book_id'] ?>"/>
-          <input type="hidden" name="session_id" value="<?php echo $_SESSION['session_id'] ?>" />
+          <input type="hidden" name="session_id" value="<?php echo $_SESSION['user_session'] ?>" />
 
            <input type="hidden" name="price"  value="<?php echo $item['price'] ?>"/>
 
